@@ -1,1 +1,1439 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>Photo Studio — แคตตาล็อกสินค้า</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            transition: background-color 0.3s ease, border-color 0.2s ease, color 0.2s ease;
+        }
 
+        /* Светлая тема (по умолчанию) */
+        :root {
+            --bg-primary: #f5f7fa;
+            --bg-secondary: #ffffff;
+            --bg-card: #ffffff;
+            --bg-nav: #ffffff;
+            --bg-button: #f1f5f9;
+            --bg-cart: #ffffff;
+            --bg-form: #f8fafc;
+            --text-primary: #1e293b;
+            --text-secondary: #334155;
+            --text-muted: #546e7a;
+            --border-color: #e9eef2;
+            --border-dark: #d1d9e2;
+            --accent-dark: #0f172a;
+            --accent-hover: #1e293b;
+            --shadow-color: rgba(0,0,0,0.03);
+            --price-color: #0e2a3b;
+            --in-cart-bg: #eaf0f5;
+            --in-cart-text: #1e3643;
+            --success-bg: #e6f7e6;
+            --success-text: #1f7b4d;
+            --error-bg: #ffeae5;
+            --error-text: #b13e2d;
+            --placeholder-bg: #0a0a0a;
+            --placeholder-text: rgba(255,255,255,0.9);
+        }
+
+        /* Тёмная тема */
+        body.dark-theme {
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --bg-card: #1e293b;
+            --bg-nav: #1e293b;
+            --bg-button: #334155;
+            --bg-cart: #1e293b;
+            --bg-form: #0f172a;
+            --text-primary: #f1f5f9;
+            --text-secondary: #cbd5e1;
+            --text-muted: #94a3b8;
+            --border-color: #334155;
+            --border-dark: #475569;
+            --accent-dark: #0f172a;
+            --accent-hover: #334155;
+            --shadow-color: rgba(0,0,0,0.2);
+            --price-color: #f1f5f9;
+            --in-cart-bg: #334155;
+            --in-cart-text: #f1f5f9;
+            --success-bg: #14532d;
+            --success-text: #86efac;
+            --error-bg: #7f1d1d;
+            --error-text: #fecaca;
+            --placeholder-bg: #0a0a0a;
+            --placeholder-text: #94a3b8;
+        }
+
+        body {
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.4;
+        }
+
+        /* верхняя панель */
+        .top-bar {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            background: var(--bg-secondary);
+            padding: 0.8rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 2px 10px var(--shadow-color);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .logo {
+            font-weight: 700;
+            font-size: 1.3rem;
+            color: var(--text-primary);
+        }
+
+        .cart-summary {
+            background: var(--bg-button);
+            padding: 0.6rem 1.5rem;
+            border-radius: 40px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            color: var(--text-primary);
+        }
+
+        .cart-summary .total {
+            background: var(--accent-dark);
+            color: white;
+            padding: 0.3rem 1rem;
+            border-radius: 30px;
+        }
+
+        /* Кнопка переключения темы */
+        .theme-toggle {
+            background: var(--bg-button);
+            border: 1px solid var(--border-color);
+            border-radius: 40px;
+            padding: 0.5rem 1.2rem;
+            font-size: 0.95rem;
+            cursor: pointer;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-left: 1rem;
+            transition: 0.2s;
+        }
+
+        .theme-toggle:hover {
+            background: var(--accent-hover);
+            color: white;
+        }
+
+        /* НАВИГАЦИЯ ПО КАТЕГОРИЯМ ДЛЯ ПК */
+        .pc-category-nav {
+            background: var(--bg-nav);
+            padding: 0.8rem 2rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            align-items: center;
+            position: sticky;
+            top: 73px;
+            z-index: 45;
+            box-shadow: 0 2px 10px var(--shadow-color);
+        }
+
+        .pc-category-nav .nav-btn {
+            padding: 0.5rem 1.2rem;
+            background: var(--bg-button);
+            border: 1px solid var(--border-color);
+            border-radius: 40px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: 0.2s;
+            white-space: nowrap;
+        }
+
+        .pc-category-nav .nav-btn:hover {
+            background: var(--accent-hover);
+            color: white;
+            border-color: var(--accent-hover);
+        }
+
+        /* навигация по категориям для мобильных */
+        .mobile-category-nav {
+            display: none;
+            background: var(--bg-nav);
+            padding: 0.5rem;
+            border-bottom: 1px solid var(--border-color);
+            overflow-x: auto;
+            white-space: nowrap;
+            -webkit-overflow-scrolling: touch;
+            gap: 0.5rem;
+        }
+
+        .mobile-category-nav .cat-link {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background: var(--bg-button);
+            border-radius: 30px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            text-decoration: none;
+            margin-right: 0.5rem;
+        }
+
+        /* основная сетка для ПК */
+        .main-layout {
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 2rem;
+            max-width: 1600px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        /* каталог товаров */
+        .catalog {
+            min-width: 0;
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            margin-bottom: 0.3rem;
+            color: var(--text-primary);
+        }
+
+        .sub {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            border-left: 4px solid var(--border-dark);
+            padding-left: 1rem;
+        }
+
+        .category {
+            margin-top: 2.5rem;
+            margin-bottom: 2rem;
+            scroll-margin-top: 140px;
+        }
+
+        .category-header {
+            border-bottom: 2px solid var(--border-dark);
+            padding-bottom: 0.7rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .category-title {
+            font-size: 1.6rem;
+            font-weight: 620;
+            color: var(--text-primary);
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .product-card {
+            background: var(--bg-card);
+            border-radius: 24px;
+            padding: 1.5rem;
+            border: 1px solid var(--border-color);
+            transition: all 0.2s;
+        }
+
+        .product-card:hover {
+            box-shadow: 0 12px 30px var(--shadow-color);
+            border-color: var(--border-dark);
+            transform: translateY(-3px);
+        }
+
+        .photo-placeholder {
+            background: var(--placeholder-bg);
+            border-radius: 18px;
+            height: 160px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--placeholder-text);
+            font-size: 0.85rem;
+            margin-bottom: 1rem;
+        }
+
+        .placeholder-text {
+            background: rgba(255,255,255,0.1);
+            padding: 6px 18px;
+            border-radius: 30px;
+        }
+
+        .product-code {
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: var(--text-primary);
+            margin-bottom: 0.3rem;
+        }
+
+        .product-desc {
+            font-size: 0.9rem;
+            background: var(--bg-form);
+            padding: 1rem;
+            border-radius: 16px;
+            margin: 0.8rem 0;
+            border: 1px solid var(--border-color);
+            white-space: pre-line;
+            line-height: 1.5;
+            color: var(--text-secondary);
+        }
+
+        .price-area {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 1rem;
+        }
+
+        .price {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--price-color);
+        }
+
+        .old-price {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            text-decoration: line-through;
+            margin-left: 5px;
+        }
+
+        .add-to-cart-btn {
+            background: var(--accent-dark);
+            color: white;
+            border: none;
+            padding: 0.7rem 1.5rem;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .add-to-cart-btn:hover {
+            background: var(--accent-hover);
+            transform: scale(0.98);
+        }
+
+        .in-cart-badge {
+            background: var(--in-cart-bg);
+            padding: 0.6rem 1.2rem;
+            border-radius: 40px;
+            font-size: 0.95rem;
+            color: var(--in-cart-text);
+            font-weight: 500;
+        }
+
+        /* корзина на ПК */
+        .cart-panel {
+            background: var(--bg-cart);
+            border-radius: 28px;
+            padding: 1.8rem;
+            border: 1px solid var(--border-color);
+            position: sticky;
+            top: 140px;
+            max-height: calc(100vh - 160px);
+            overflow-y: auto;
+            box-shadow: 0 12px 35px var(--shadow-color);
+        }
+
+        .cart-header {
+            font-size: 1.4rem;
+            font-weight: 700;
+            padding-bottom: 1.2rem;
+            border-bottom: 2px solid var(--border-dark);
+            margin-bottom: 1.2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: var(--text-primary);
+        }
+
+        .cart-count {
+            background: var(--accent-dark);
+            color: white;
+            padding: 0.3rem 1rem;
+            border-radius: 30px;
+            font-size: 1rem;
+        }
+
+        .cart-items {
+            max-height: 350px;
+            overflow-y: auto;
+            margin-bottom: 1.2rem;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+            border-bottom: 1px dashed var(--border-color);
+        }
+
+        .cart-item-info {
+            flex: 2;
+        }
+
+        .cart-item-name {
+            font-weight: 600;
+            font-size: 1rem;
+            margin-bottom: 0.2rem;
+            color: var(--text-primary);
+        }
+
+        .cart-item-price {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        .cart-item-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: var(--bg-button);
+            padding: 0.4rem;
+            border-radius: 40px;
+        }
+
+        .cart-item-controls button {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: none;
+            background: var(--bg-card);
+            font-size: 1.2rem;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 2px 5px var(--shadow-color);
+            transition: 0.2s;
+            color: var(--text-primary);
+        }
+
+        .cart-item-controls button:hover {
+            background: var(--accent-hover);
+            color: white;
+            transform: scale(0.95);
+        }
+
+        .cart-item-controls span {
+            min-width: 30px;
+            text-align: center;
+            font-weight: 600;
+            font-size: 1rem;
+            color: var(--text-primary);
+        }
+
+        .cart-total {
+            font-size: 1.4rem;
+            font-weight: 700;
+            border-top: 2px solid var(--border-dark);
+            padding-top: 1.2rem;
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+        }
+
+        /* форма клиента */
+        .client-form {
+            background: var(--bg-form);
+            border-radius: 20px;
+            padding: 1.5rem;
+            margin-bottom: 1.2rem;
+        }
+
+        .form-title {
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 1.2rem;
+            color: var(--text-primary);
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.9rem 1.2rem;
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            font-size: 1rem;
+            background: var(--bg-card);
+            color: var(--text-primary);
+            transition: 0.2s;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--accent-dark);
+            box-shadow: 0 0 0 3px rgba(15,42,64,0.1);
+        }
+
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: var(--text-muted);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 70px;
+        }
+
+        .send-crm-btn {
+            background: var(--accent-dark);
+            color: white;
+            border: none;
+            padding: 1.1rem;
+            border-radius: 40px;
+            font-weight: 700;
+            width: 100%;
+            font-size: 1.1rem;
+            cursor: pointer;
+            margin: 1rem 0;
+            transition: 0.2s;
+        }
+
+        .send-crm-btn:hover {
+            background: var(--accent-hover);
+        }
+
+        .cart-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 1rem;
+        }
+
+        .cart-actions button {
+            flex: 1;
+            padding: 1rem;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 1rem;
+            border: none;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .checkout-btn {
+            background: var(--accent-dark);
+            color: white;
+        }
+
+        .checkout-btn:hover {
+            background: var(--accent-hover);
+        }
+
+        .clear-btn {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+        }
+
+        .clear-btn:hover {
+            background: var(--bg-button);
+        }
+
+        .status-message {
+            margin-top: 0.8rem;
+            padding: 0.8rem;
+            border-radius: 20px;
+            text-align: center;
+            font-size: 0.95rem;
+        }
+
+        .success {
+            background: var(--success-bg);
+            color: var(--success-text);
+        }
+
+        .error {
+            background: var(--error-bg);
+            color: var(--error-text);
+        }
+
+        .empty-cart {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-muted);
+            font-size: 1rem;
+        }
+
+        .footer-note {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-top: 3rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        /* мобильная версия */
+        @media (max-width: 900px) {
+            .pc-category-nav {
+                display: none;
+            }
+
+            .top-bar .cart-summary {
+                display: none;
+            }
+
+            .mobile-category-nav {
+                display: flex;
+            }
+
+            .main-layout {
+                grid-template-columns: 1fr;
+                padding: 0 1rem;
+                margin: 1rem auto;
+            }
+
+            .cart-panel {
+                display: none;
+            }
+
+            h1 {
+                font-size: 1.6rem;
+            }
+
+            .sub {
+                font-size: 0.9rem;
+                margin-bottom: 1rem;
+            }
+
+            .category-title {
+                font-size: 1.3rem;
+            }
+
+            .product-grid {
+                gap: 1rem;
+            }
+
+            .product-card {
+                padding: 1rem;
+            }
+
+            .photo-placeholder {
+                height: 120px;
+            }
+
+            .add-to-cart-btn {
+                padding: 0.5rem 1rem;
+                font-size: 0.9rem;
+            }
+
+            .mobile-cart-button {
+                display: flex;
+                position: fixed;
+                bottom: 20px;
+                right: 20px;
+                background: var(--accent-dark);
+                color: white;
+                border: none;
+                border-radius: 50px;
+                padding: 1rem 1.5rem;
+                font-weight: 600;
+                font-size: 1rem;
+                box-shadow: 0 5px 20px var(--shadow-color);
+                z-index: 90;
+                align-items: center;
+                gap: 8px;
+            }
+
+            .mobile-cart-panel {
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                background: var(--bg-cart);
+                border-top-left-radius: 30px;
+                border-top-right-radius: 30px;
+                box-shadow: 0 -5px 30px var(--shadow-color);
+                padding: 1.5rem;
+                z-index: 100;
+                transform: translateY(100%);
+                transition: transform 0.3s ease;
+                max-height: 85vh;
+                overflow-y: auto;
+            }
+
+            .mobile-cart-panel.open {
+                transform: translateY(0);
+            }
+
+            .mobile-cart-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 1rem;
+                padding-bottom: 0.5rem;
+                border-bottom: 2px solid var(--border-dark);
+            }
+
+            .close-cart {
+                background: none;
+                border: none;
+                font-size: 1.8rem;
+                cursor: pointer;
+                padding: 0.5rem;
+                color: var(--text-primary);
+            }
+
+            .overlay {
+                display: none;
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: rgba(0,0,0,0.5);
+                z-index: 95;
+            }
+
+            .overlay.show {
+                display: block;
+            }
+        }
+
+        @media (min-width: 901px) {
+            .mobile-cart-button {
+                display: none;
+            }
+            .mobile-cart-panel {
+                display: none;
+            }
+            .overlay {
+                display: none !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- верхняя панель для ПК -->
+    <div class="top-bar">
+        <div style="display: flex; align-items: center; gap: 1rem;">
+            <div class="logo">📸 PHOTO STUDIO</div>
+            <button class="theme-toggle" onclick="toggleTheme()">
+                <span id="theme-icon">🌙</span> 
+                <span id="theme-text-th">โหมดกลางคืน</span>
+                <span id="theme-text-en" style="display: none;">Dark mode</span>
+            </button>
+        </div>
+        <div class="cart-summary">
+            <span>🛒 <span id="total-items">0</span> ชิ้น</span>
+            <span class="total" id="total-amount">0 THB</span>
+        </div>
+    </div>
+
+    <!-- НАВИГАЦИЯ ПО КАТЕГОРИЯМ ДЛЯ ПК -->
+    <div class="pc-category-nav">
+        <button class="nav-btn" onclick="document.getElementById('cat1').scrollIntoView({behavior:'smooth'})">📦 S/M/L</button>
+        <button class="nav-btn" onclick="document.getElementById('cat2').scrollIntoView({behavior:'smooth'})">✨ ACRYLIC</button>
+        <button class="nav-btn" onclick="document.getElementById('cat3').scrollIntoView({behavior:'smooth'})">🖤 FLOAT</button>
+        <button class="nav-btn" onclick="document.getElementById('cat4').scrollIntoView({behavior:'smooth'})">🖼️ CANVAS</button>
+        <button class="nav-btn" onclick="document.getElementById('cat5').scrollIntoView({behavior:'smooth'})">🧩 COLLAGE</button>
+        <button class="nav-btn" onclick="document.getElementById('cat6').scrollIntoView({behavior:'smooth'})">📚 BOOKS</button>
+        <button class="nav-btn" onclick="document.getElementById('cat7').scrollIntoView({behavior:'smooth'})">📆 CAL</button>
+        <button class="nav-btn" onclick="document.getElementById('cat8').scrollIntoView({behavior:'smooth'})">💧 BOTTLE</button>
+        <button class="nav-btn" onclick="document.getElementById('cat9').scrollIntoView({behavior:'smooth'})">🎲 SHAKING</button>
+        <button class="nav-btn" onclick="document.getElementById('cat10').scrollIntoView({behavior:'smooth'})">📱 ACCESS</button>
+        <button class="nav-btn" onclick="document.getElementById('cat11').scrollIntoView({behavior:'smooth'})">🖨️ PRINTS</button>
+    </div>
+
+    <!-- навигация по категориям для мобильных -->
+    <div class="mobile-category-nav">
+        <a class="cat-link" href="#cat1">📦 S/M/L</a>
+        <a class="cat-link" href="#cat2">✨ ACRYLIC</a>
+        <a class="cat-link" href="#cat3">🖤 FLOAT</a>
+        <a class="cat-link" href="#cat4">🖼️ CANVAS</a>
+        <a class="cat-link" href="#cat5">🧩 COLLAGE</a>
+        <a class="cat-link" href="#cat6">📚 BOOKS</a>
+        <a class="cat-link" href="#cat7">📆 CAL</a>
+        <a class="cat-link" href="#cat8">💧 BOTTLE</a>
+        <a class="cat-link" href="#cat9">🎲 SHAKING</a>
+        <a class="cat-link" href="#cat10">📱 ACCESS</a>
+        <a class="cat-link" href="#cat11">🖨️ PRINTS</a>
+    </div>
+
+    <!-- затемнение для мобильной корзины -->
+    <div class="overlay" id="overlay" onclick="closeMobileCart()"></div>
+
+    <!-- кнопка открытия корзины на мобильных -->
+    <button class="mobile-cart-button" onclick="openMobileCart()">
+        🛒 <span id="mobile-cart-count">0</span> • <span id="mobile-cart-total">0</span> THB
+    </button>
+
+    <!-- мобильная корзина (выезжающая) -->
+    <div class="mobile-cart-panel" id="mobileCart">
+        <div class="mobile-cart-header">
+            <span style="font-weight: 700; font-size: 1.2rem;">🛍️ ตะกร้าสินค้า</span>
+            <button class="close-cart" onclick="closeMobileCart()">✕</button>
+        </div>
+        
+        <div id="mobile-cart-items" class="cart-items" style="max-height: 250px;"></div>
+        
+        <div class="cart-total" style="font-size: 1.2rem; margin: 1rem 0;">
+            <span>รวม</span>
+            <span id="mobile-cart-total-price">0 THB</span>
+        </div>
+
+        <!-- форма для мобильных -->
+        <div class="client-form" style="padding: 1rem;">
+            <div class="form-title">👤 ข้อมูลลูกค้า</div>
+            <div class="form-group">
+                <input type="text" id="mobile-clientName" placeholder="ชื่อ-นามสกุล *">
+            </div>
+            <div class="form-group">
+                <input type="tel" id="mobile-clientPhone" placeholder="เบอร์โทรศัพท์ *">
+            </div>
+            <div class="form-group">
+                <input type="email" id="mobile-clientEmail" placeholder="อีเมล">
+            </div>
+            <div class="form-group">
+                <textarea id="mobile-clientNotes" placeholder="หมายเหตุ"></textarea>
+            </div>
+            <button class="send-crm-btn" onclick="sendMobileToCRM()">💾 ส่งข้อมูลไปยัง CRM</button>
+            <div id="mobile-crmStatus" class="status-message"></div>
+        </div>
+
+        <div style="display: flex; gap: 10px; margin-top: 1rem;">
+            <button class="checkout-btn" onclick="mobileCheckout()" style="flex: 1;">ดำเนินการต่อ</button>
+            <button class="clear-btn" onclick="clearMobileCart()" style="flex: 0.5;">ล้าง</button>
+        </div>
+    </div>
+
+    <div class="main-layout">
+        <!-- каталог товаров -->
+        <div class="catalog">
+            <h1>Photo Studio Catalog</h1>
+            <div class="sub">สินค้าครบครันสำหรับช่างภาพและสตูดิโอ</div>
+
+            <!-- все категории -->
+            <section id="cat1" class="category">
+                <div class="category-header"><span class="category-title">📸 Package S/M/L</span></div>
+                <div class="product-grid" id="grid-packages"></div>
+            </section>
+            <section id="cat2" class="category">
+                <div class="category-header"><span class="category-title">✨ ACRYLIC</span></div>
+                <div class="product-grid" id="grid-acrylic"></div>
+            </section>
+            <section id="cat3" class="category">
+                <div class="category-header"><span class="category-title">🖤 FLOAT FRAME</span></div>
+                <div class="product-grid" id="grid-float"></div>
+            </section>
+            <section id="cat4" class="category">
+                <div class="category-header"><span class="category-title">🖼️ CANVAS</span></div>
+                <div class="product-grid" id="grid-canvas"></div>
+            </section>
+            <section id="cat5" class="category">
+                <div class="category-header"><span class="category-title">🧩 COLLAGE/ALUM</span></div>
+                <div class="product-grid" id="grid-collage"></div>
+            </section>
+            <section id="cat6" class="category">
+                <div class="category-header"><span class="category-title">📚 PHOTOBOOKS</span></div>
+                <div class="product-grid" id="grid-photobooks"></div>
+            </section>
+            <section id="cat7" class="category">
+                <div class="category-header"><span class="category-title">📆 CALENDAR</span></div>
+                <div class="product-grid" id="grid-calendar"></div>
+            </section>
+            <section id="cat8" class="category">
+                <div class="category-header"><span class="category-title">💧 BOTTLE/MUG</span></div>
+                <div class="product-grid" id="grid-bottle"></div>
+            </section>
+            <section id="cat9" class="category">
+                <div class="category-header"><span class="category-title">🎲 SHAKING HEAD</span></div>
+                <div class="product-grid" id="grid-shaking"></div>
+            </section>
+            <section id="cat10" class="category">
+                <div class="category-header"><span class="category-title">📱 ACCESSORIES</span></div>
+                <div class="product-grid" id="grid-accessory"></div>
+            </section>
+            <section id="cat11" class="category">
+                <div class="category-header"><span class="category-title">🖨️ PRINTS/DIGITAL</span></div>
+                <div class="product-grid" id="grid-prints"></div>
+            </section>
+        </div>
+
+        <!-- корзина для ПК -->
+        <div class="cart-panel">
+            <div class="cart-header">
+                <span>🛍️ ตะกร้าสินค้า</span>
+                <span class="cart-count" id="cart-count">0</span>
+            </div>
+            
+            <div id="cart-items-list" class="cart-items">
+                <div class="empty-cart">ตะกร้าว่างเปล่า</div>
+            </div>
+            
+            <div class="cart-total">
+                <span>รวมทั้งสิ้น</span>
+                <span id="cart-total-price">0 THB</span>
+            </div>
+
+            <!-- форма для ПК -->
+            <div class="client-form">
+                <div class="form-title">👤 ข้อมูลลูกค้า</div>
+                <div class="form-group">
+                    <input type="text" id="clientName" placeholder="ชื่อ-นามสกุล *">
+                </div>
+                <div class="form-group">
+                    <input type="tel" id="clientPhone" placeholder="เบอร์โทรศัพท์ *">
+                </div>
+                <div class="form-group">
+                    <input type="email" id="clientEmail" placeholder="อีเมล">
+                </div>
+                <div class="form-group">
+                    <textarea id="clientNotes" placeholder="หมายเหตุ (ขนาด, สี, รายละเอียดเพิ่มเติม)"></textarea>
+                </div>
+                <button class="send-crm-btn" id="sendToCRM">💾 ส่งข้อมูลไปยัง CRM</button>
+                <div id="crmStatus" class="status-message"></div>
+            </div>
+
+            <div class="cart-actions">
+                <button class="checkout-btn" id="checkoutBtn">ดำเนินการต่อ</button>
+                <button class="clear-btn" id="clearCartBtn">ล้างทั้งหมด</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ============================================
+        // ПЕРЕКЛЮЧЕНИЕ ТЕМЫ (тайский/английский)
+        // ============================================
+        let currentLang = 'th'; // 'th' или 'en'
+
+        function toggleTheme() {
+            const body = document.body;
+            const themeIcon = document.getElementById('theme-icon');
+            const themeTextTh = document.getElementById('theme-text-th');
+            const themeTextEn = document.getElementById('theme-text-en');
+            
+            if (body.classList.contains('dark-theme')) {
+                body.classList.remove('dark-theme');
+                themeIcon.textContent = '🌙';
+                if (currentLang === 'th') {
+                    themeTextTh.textContent = 'โหมดกลางคืน';
+                    themeTextEn.textContent = 'Dark mode';
+                } else {
+                    themeTextTh.textContent = 'โหมดกลางคืน';
+                    themeTextEn.textContent = 'Dark mode';
+                }
+                localStorage.setItem('theme', 'light');
+            } else {
+                body.classList.add('dark-theme');
+                themeIcon.textContent = '☀️';
+                if (currentLang === 'th') {
+                    themeTextTh.textContent = 'โหมดสว่าง';
+                    themeTextEn.textContent = 'Light mode';
+                } else {
+                    themeTextTh.textContent = 'โหมดสว่าง';
+                    themeTextEn.textContent = 'Light mode';
+                }
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+
+        // Загружаем сохранённую тему
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'dark') {
+            document.body.classList.add('dark-theme');
+            document.getElementById('theme-icon').textContent = '☀️';
+            document.getElementById('theme-text-th').textContent = 'โหมดสว่าง';
+            document.getElementById('theme-text-en').textContent = 'Light mode';
+        }
+
+        // Переключение языка темы (опционально)
+        function toggleLang() {
+            const themeTextTh = document.getElementById('theme-text-th');
+            const themeTextEn = document.getElementById('theme-text-en');
+            
+            if (currentLang === 'th') {
+                // Переключаем на английский
+                themeTextTh.style.display = 'none';
+                themeTextEn.style.display = 'inline';
+                currentLang = 'en';
+            } else {
+                // Переключаем на тайский
+                themeTextTh.style.display = 'inline';
+                themeTextEn.style.display = 'none';
+                currentLang = 'th';
+            }
+            
+            // Обновляем текст в зависимости от текущей темы
+            const isDark = document.body.classList.contains('dark-theme');
+            if (isDark) {
+                themeTextTh.textContent = 'โหมดสว่าง';
+                themeTextEn.textContent = 'Light mode';
+            } else {
+                themeTextTh.textContent = 'โหมดกลางคืน';
+                themeTextEn.textContent = 'Dark mode';
+            }
+            
+            localStorage.setItem('lang', currentLang);
+        }
+
+        // Загружаем сохранённый язык
+        const savedLang = localStorage.getItem('lang');
+        if (savedLang === 'en') {
+            toggleLang(); // переключаем на английский
+        }
+
+        // Добавляем кнопку переключения языка (опционально)
+        // Можно добавить в топ-бар рядом с темой
+
+        // ============================================
+        // ДАННЫЕ ТОВАРОВ (полный список)
+        // ============================================
+        const products = [
+            // Пакеты
+            { id: 'p1', cat: 'pack', name: 'Package S', code: '', desc: 'Total 6 photo\n1 Pose 6x9" Class Serious + Logo\nคลาสซีเรียส + โลโก้\n1 Pose 4x6" Individual + Logo\n4 Pose 4x6" Individual', price: 400, oldPrice: 505 },
+            { id: 'p2', cat: 'pack', name: 'Package M', code: '', desc: 'Total 11 photo\n1 Pose 6x9" Class Serious + Logo\n1 Pose 6x9" Individual + Logo\n8 Pose 4x6" Individual\n1 Pose 6x9" Class Sabai', price: 800, oldPrice: 945 },
+            { id: 'p3', cat: 'pack', name: 'Package L', code: '', desc: 'Total 14 photo\n1 Pose 8x12" Class Serious + Logo\n1 Pose 6x9" Individual + Logo\n10 Pose 4x6" Individual\n1 Pose 6x9" Class Sabai\n1 Pose 6x9" Individual\n10% discount', price: 1300, oldPrice: 1450 },
+            
+            // Акрил
+            { id: 'a1', cat: 'acrylic', name: 'А13', code: '5x5"', desc: 'ACRYLIC PHOTO class + individual logo\n1 POSE\n350 THB\nคลาสเรียนถ่ายภาพอะคริลิค + โลโก้ส่วนตัว', price: 350 },
+            { id: 'a2', cat: 'acrylic', name: 'А14', code: '12x12"', desc: '2 POSE\n1100 THB\nACRYLIC PHOTO\nภาพถ่ายอะคริลิค', price: 1100 },
+            { id: 'a4', cat: 'acrylic', name: 'А11', code: '8x12"', desc: 'ACRYLIC PHOTO\n1 POSE\nACRYLIC PHOTO class logo\n1100 THB 890 THB', price: 890, oldPrice: 1100 },
+            
+            // Float Frame
+            { id: 'f1', cat: 'float', name: 'W16', code: '12x18"', desc: '3 POSE\n850 THB\nFLOAT FRAME เฟรมลอย', price: 850 },
+            { id: 'f2', cat: 'float', name: 'W12', code: '12x12"', desc: '1 POSE\n780 THB\nFLOAT FRAME เฟรมลอย', price: 780 },
+            { id: 'f3', cat: 'float', name: 'W11', code: '10x10"', desc: '1 POSE\n670 THB\nFLOAT FRAME\nเฟรมลอย', price: 670 },
+            { id: 'f4', cat: 'float', name: 'W14', code: '8x12"', desc: '1 POSE\n650 THB\nFLOAT FRAME เฟรมลอย', price: 650 },
+            { id: 'f5', cat: 'float', name: 'W17', code: '16x24"', desc: '1 POSE\n1450 THB\nFLOAT FRAME class logo', price: 1450 },
+            { id: 'f6', cat: 'float', name: 'W13', code: '16x16"', desc: '1 POSE\n950 THB\nFLOAT FRAME เฟรมลอย', price: 950 },
+            { id: 'f7', cat: 'float', name: 'W15', code: '10x15"', desc: '1 POSE\n790 THB\nFLOAT FRAME individual logo', price: 790 },
+            
+            // Canvas
+            { id: 'c1', cat: 'canvas', name: 'C13', code: '20x30"', desc: '2400 THB\nCANVAS\nผ้าใบ', price: 2400 },
+            { id: 'c3', cat: 'canvas', name: 'C11', code: '12x18"', desc: '1 POSE\n1100 THB\nCANVAS ผ้าใบ', price: 1100 },
+            { id: 'c4', cat: 'canvas', name: 'C12', code: '16x24"', desc: '1 POSE\n1900 THB\nCANVAS ผ้าใบ', price: 1900 },
+            { id: 'c5', cat: 'canvas', name: 'C15', code: '20x20"', desc: '2100 THB\nCANVAS design', price: 2100 },
+            { id: 'c6', cat: 'canvas', name: 'C14', code: '16x16"', desc: '1 POSE\n1310 THB\nCANVAS ผ้าใบ', price: 1310 },
+            
+            // Коллажи
+            { id: 'col1', cat: 'collage', name: 'F12', code: '8x12"', desc: '2 POSE\n1050 THB\nGOLD FRAMES', price: 1050 },
+            { id: 'col2', cat: 'collage', name: 'F13', code: '6x9"', desc: '1 POSE\n490 THB\nGOLD FRAMES', price: 490 },
+            { id: 'col3', cat: 'collage', name: 'F14', code: '4x6"', desc: '1 POSE\n190 THB', price: 190 },
+            { id: 'col4', cat: 'collage', name: 'F11', code: '12x16"', desc: '1050 THB\nPHOTO BOX', price: 1050 },
+            { id: 'col5', cat: 'collage', name: 'F15', code: '3x3.5"', desc: '510 THB\nMAGNET INSTAX 2 psc', price: 510 },
+            
+            // Фотокниги
+            { id: 'pb1', cat: 'photobook', name: 'INSTABOOK', code: 'B11', desc: '16 POSE\n1300 THB\nอินสตาบุ๊ค', price: 1300 },
+            { id: 'pb2', cat: 'photobook', name: 'ELITE SCHOOL', code: 'SE', desc: '20 pages + photoshoot\n3500 THB', price: 3500 },
+            { id: 'pb3', cat: 'photobook', name: 'POP ART', code: 'OSE', desc: '20 pages + photoshoot\n4500 THB', price: 4500 },
+            { id: 'pb4', cat: 'photobook', name: 'MINI BOOK', code: 'B12', desc: '10 pages\n1300 THB', price: 1300 },
+            
+            // Календари
+            { id: 'k1', cat: 'calendar', name: 'WALL CAL 1sh', code: 'K12', desc: '24x36"\n1 POSE\n750 THB', price: 750 },
+            { id: 'k2', cat: 'calendar', name: 'WALL CAL 13p', code: 'K11', desc: '30x42 cm\n20 POSE\n710 THB', price: 710 },
+            { id: 'k3', cat: 'calendar', name: 'DESK FLIP WOOD', code: 'K13', desc: '6x9"\n12 POSE\n1100 THB', price: 1100 },
+            { id: 'k4', cat: 'calendar', name: 'DESK FLIP', code: 'K14', desc: '6x8"\n25 POSE\n550 THB', price: 550 },
+            
+            // Бутылки/Кружки
+            { id: 'b1', cat: 'bottle', name: 'D14', code: '500ml', desc: 'BOTTLE LOGO\n4 POSE\n530 THB', price: 530 },
+            { id: 'b2', cat: 'bottle', name: 'D12', code: '350ml', desc: 'MUG INDIVIDUAL\n2 POSE\n910 THB', price: 910 },
+            { id: 'b3', cat: 'bottle', name: 'D11', code: '350ml', desc: 'MUG LOGO\n2 POSE\n530 THB', price: 530 },
+            { id: 'b4', cat: 'bottle', name: 'D13', code: '600ml', desc: 'BOTTLE\n8 POSE\n990 THB', price: 990 },
+            
+            // Shaking head и стикеры
+            { id: 's1', cat: 'shaking', name: 'S11 boy', code: '10cm', desc: 'SHAKING HEAD boy\n1 POSE\n570 THB', price: 570 },
+            { id: 's2', cat: 'shaking', name: 'S15', code: '11.3x19', desc: 'STICKERS CUTE 40\n350 THB', price: 350 },
+            { id: 's3', cat: 'shaking', name: 'S12 girl', code: '10cm', desc: 'SHAKING HEAD girl\n570 THB', price: 570 },
+            { id: 's4', cat: 'shaking', name: 'S14', code: '11.3x19', desc: 'STICKERS GAMES\n350 THB', price: 350 },
+            { id: 's5', cat: 'shaking', name: 'S16', code: '6.5cm', desc: 'MAGNETS 6psc\n300 THB', price: 300 },
+            { id: 's6', cat: 'shaking', name: 'S13', code: '10cm', desc: 'SHAKING teacher+student\n700 THB', price: 700 },
+            { id: 's7', cat: 'shaking', name: 'S17', code: '6x14x9', desc: 'MUSIC BOX\n2250 THB', price: 2250 },
+            
+            // Аксессуары
+            { id: 'e1', cat: 'accessory', name: 'E15', code: '', desc: 'PHONE COVER\n550 THB', price: 550 },
+            { id: 'e2', cat: 'accessory', name: 'E19', code: '7.5cm', desc: 'HAND MIRROR\n170 THB', price: 170 },
+            { id: 'e3', cat: 'accessory', name: 'E17', code: '6.8x11', desc: 'CARD HOLDER X\n310 THB', price: 310 },
+            { id: 'e4', cat: 'accessory', name: 'E18', code: '6.8x11', desc: 'CARD HOLDER FLY\n310 THB', price: 310 },
+            { id: 'e5', cat: 'accessory', name: 'E16', code: '7.5cm', desc: 'MINI PILLOW 2psc\n330 THB', price: 330 },
+            { id: 'e6', cat: 'accessory', name: 'E14', code: '5cm', desc: 'KEYRING ALUM\n450 THB', price: 450 },
+            { id: 'e7', cat: 'accessory', name: 'E12', code: '15x20', desc: 'FOLDER A4\n770 THB', price: 770 },
+            { id: 'e8', cat: 'accessory', name: 'E11', code: 'A4', desc: 'NOTEBOOK HARCOVER\n500 THB', price: 500 },
+            { id: 'e9', cat: 'accessory', name: 'E13', code: '15.5x20', desc: 'NOTEBOOK RING\n600 THB', price: 600 },
+            
+            // Принты
+            { id: 'pr1', cat: 'prints', name: 'P11', code: '4x6"', desc: 'Photo 65 THB', price: 65 },
+            { id: 'pr2', cat: 'prints', name: 'P12', code: '6x9"', desc: 'Photo 180 THB', price: 180 },
+            { id: 'pr3', cat: 'prints', name: 'P13', code: '8x12"', desc: 'Photo 260 THB', price: 260 },
+            { id: 'pr4', cat: 'prints', name: 'P14', code: '10x15"', desc: 'Photo 300 THB', price: 300 },
+            { id: 'pr5', cat: 'prints', name: 'P15', code: '12x18"', desc: 'Photo 350 THB', price: 350 },
+            { id: 'pr6', cat: 'prints', name: 'P16', code: '13x20"', desc: 'Photo 410 THB', price: 410 },
+            { id: 'pr7', cat: 'prints', name: 'P17', code: '16x24"', desc: 'Photo 600 THB', price: 600 },
+            { id: 'pr8', cat: 'prints', name: 'P18', code: '20x30"', desc: 'Photo 750 THB', price: 750 },
+            { id: 'pr9', cat: 'prints', name: 'J11', code: '', desc: 'DIGITAL FILES\n1600 THB', price: 1600 },
+            { id: 'pr10', cat: 'prints', name: 'X14', code: '36x42', desc: 'SHOPPER BAG+PENCIL\n820 THB', price: 820 },
+            { id: 'pr11', cat: 'prints', name: 'ID11', code: '1-2"', desc: 'ID photo 38psc\n250 THB', price: 250 },
+            { id: 'pr12', cat: 'prints', name: 'X13', code: '13x20"', desc: 'TIMETABLE poster\n410 THB', price: 410 },
+            { id: 'pr13', cat: 'prints', name: 'X11', code: '13x20"', desc: 'POSTER DESIGN 1\n410 THB', price: 410 },
+            { id: 'pr14', cat: 'prints', name: 'X12', code: '20x30"', desc: 'POSTER DESIGN 2\n750 THB', price: 750 }
+        ];
+
+        // ============================================
+        // КОРЗИНА
+        // ============================================
+        let cart = JSON.parse(localStorage.getItem('photoCart')) || [];
+
+        // ============================================
+        // ФУНКЦИИ РАБОТЫ С КОРЗИНОЙ
+        // ============================================
+        window.addToCart = function(productId) {
+            const product = products.find(p => p.id === productId);
+            if (!product) return;
+            
+            const existingItem = cart.find(item => item.id === productId);
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({
+                    id: product.id,
+                    name: product.name,
+                    price: product.price,
+                    code: product.code || '',
+                    quantity: 1
+                });
+            }
+            
+            localStorage.setItem('photoCart', JSON.stringify(cart));
+            renderAll();
+        };
+
+        window.updateQuantity = function(productId, change) {
+            const itemIndex = cart.findIndex(item => item.id === productId);
+            if (itemIndex === -1) return;
+            
+            const newQuantity = cart[itemIndex].quantity + change;
+            
+            if (newQuantity <= 0) {
+                cart.splice(itemIndex, 1);
+            } else {
+                cart[itemIndex].quantity = newQuantity;
+            }
+            
+            localStorage.setItem('photoCart', JSON.stringify(cart));
+            renderAll();
+        };
+
+        // ============================================
+        // ФУНКЦИИ ДЛЯ МОБИЛЬНОЙ КОРЗИНЫ
+        // ============================================
+        window.openMobileCart = function() {
+            document.getElementById('mobileCart').classList.add('open');
+            document.getElementById('overlay').classList.add('show');
+            updateMobileCart();
+        };
+
+        window.closeMobileCart = function() {
+            document.getElementById('mobileCart').classList.remove('open');
+            document.getElementById('overlay').classList.remove('show');
+        };
+
+        window.mobileCheckout = function() {
+            const name = document.getElementById('mobile-clientName').value.trim();
+            const phone = document.getElementById('mobile-clientPhone').value.trim();
+            
+            if (!name || !phone) {
+                document.getElementById('mobile-crmStatus').innerHTML = '⚠️ กรุณากรอกชื่อและเบอร์โทร';
+                document.getElementById('mobile-crmStatus').className = 'status-message error';
+                return;
+            }
+            
+            if (cart.length === 0) {
+                document.getElementById('mobile-crmStatus').innerHTML = '⚠️ ไม่มีสินค้าในตะกร้า';
+                document.getElementById('mobile-crmStatus').className = 'status-message error';
+                return;
+            }
+            
+            sendToCRM('mobile');
+        };
+
+        window.sendMobileToCRM = function() {
+            sendToCRM('mobile');
+        };
+
+        window.clearMobileCart = function() {
+            if (confirm('ล้างสินค้าทั้งหมดในตะกร้า?')) {
+                cart = [];
+                localStorage.setItem('photoCart', JSON.stringify(cart));
+                renderAll();
+                updateMobileCart();
+            }
+        };
+
+        function updateMobileCart() {
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            const totalPrice = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            
+            document.getElementById('mobile-cart-count').innerText = totalItems;
+            document.getElementById('mobile-cart-total').innerText = totalPrice;
+            
+            let itemsHtml = '';
+            if (cart.length === 0) {
+                itemsHtml = '<div class="empty-cart">ตะกร้าว่างเปล่า</div>';
+            } else {
+                cart.forEach(item => {
+                    itemsHtml += `
+                        <div class="cart-item">
+                            <div class="cart-item-info">
+                                <div class="cart-item-name">${item.name}</div>
+                                <div class="cart-item-price">${item.price} THB</div>
+                            </div>
+                            <div class="cart-item-controls">
+                                <button onclick="updateQuantity('${item.id}', -1)">−</button>
+                                <span>${item.quantity}</span>
+                                <button onclick="updateQuantity('${item.id}', 1)">+</button>
+                            </div>
+                        </div>
+                    `;
+                });
+            }
+            document.getElementById('mobile-cart-items').innerHTML = itemsHtml;
+            document.getElementById('mobile-cart-total-price').innerText = totalPrice + ' THB';
+        }
+
+        // ============================================
+        // ОТПРАВКА В CRM
+        // ============================================
+        function sendToCRM(device) {
+            let name, phone, email, notes, statusDiv;
+            
+            if (device === 'desktop') {
+                name = document.getElementById('clientName').value.trim();
+                phone = document.getElementById('clientPhone').value.trim();
+                email = document.getElementById('clientEmail').value.trim();
+                notes = document.getElementById('clientNotes').value.trim();
+                statusDiv = document.getElementById('crmStatus');
+            } else {
+                name = document.getElementById('mobile-clientName').value.trim();
+                phone = document.getElementById('mobile-clientPhone').value.trim();
+                email = document.getElementById('mobile-clientEmail').value.trim();
+                notes = document.getElementById('mobile-clientNotes').value.trim();
+                statusDiv = document.getElementById('mobile-crmStatus');
+            }
+
+            const orderData = {
+                client: { name, phone, email, notes },
+                cart: cart.map(item => ({
+                    id: item.id,
+                    name: item.name,
+                    price: item.price,
+                    quantity: item.quantity
+                })),
+                total: cart.reduce((sum, item) => sum + (item.price * item.quantity), 0),
+                timestamp: new Date().toISOString(),
+                source: device === 'desktop' ? 'PC' : 'Mobile'
+            };
+
+            statusDiv.innerHTML = '⏳ กำลังส่งข้อมูล...';
+            statusDiv.className = 'status-message';
+            
+            // 🔴 ЗАМЕНИ ЭТОТ URL НА СВОЙ АДРЕС CRM
+            const CRM_API_URL = 'https://your-crm.com/api/orders';
+            
+            fetch(CRM_API_URL, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(orderData)
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}`);
+                }
+                return response.json().catch(() => ({}));
+            })
+            .then(data => {
+                statusDiv.innerHTML = '✅ ข้อมูลถูกส่งไปยัง CRM เรียบร้อย';
+                statusDiv.className = 'status-message success';
+                
+                saveOrderToHistory(orderData);
+                
+                cart = [];
+                localStorage.setItem('photoCart', JSON.stringify(cart));
+                renderAll();
+                
+                if (device === 'desktop') {
+                    document.getElementById('clientName').value = '';
+                    document.getElementById('clientPhone').value = '';
+                    document.getElementById('clientEmail').value = '';
+                    document.getElementById('clientNotes').value = '';
+                } else {
+                    document.getElementById('mobile-clientName').value = '';
+                    document.getElementById('mobile-clientPhone').value = '';
+                    document.getElementById('mobile-clientEmail').value = '';
+                    document.getElementById('mobile-clientNotes').value = '';
+                    updateMobileCart();
+                    closeMobileCart();
+                }
+                
+                setTimeout(() => {
+                    statusDiv.innerHTML = '';
+                }, 3000);
+            })
+            .catch(error => {
+                console.error('CRM Error:', error);
+                statusDiv.innerHTML = '❌ เกิดข้อผิดพลาดในการส่งข้อมูล';
+                statusDiv.className = 'status-message error';
+                
+                setTimeout(() => {
+                    statusDiv.innerHTML = '';
+                }, 4000);
+            });
+        }
+
+        function saveOrderToHistory(orderData) {
+            const history = JSON.parse(localStorage.getItem('orderHistory')) || [];
+            history.push({
+                ...orderData,
+                orderId: 'ORD-' + Date.now(),
+                savedAt: new Date().toLocaleString('th-TH')
+            });
+            if (history.length > 50) history.shift();
+            localStorage.setItem('orderHistory', JSON.stringify(history));
+        }
+
+        // ============================================
+        // ОТРИСОВКА
+        // ============================================
+        function renderAll() {
+            renderGrid('grid-packages', products.filter(p => p.cat === 'pack'));
+            renderGrid('grid-acrylic', products.filter(p => p.cat === 'acrylic'));
+            renderGrid('grid-float', products.filter(p => p.cat === 'float'));
+            renderGrid('grid-canvas', products.filter(p => p.cat === 'canvas'));
+            renderGrid('grid-collage', products.filter(p => p.cat === 'collage'));
+            renderGrid('grid-photobooks', products.filter(p => p.cat === 'photobook'));
+            renderGrid('grid-calendar', products.filter(p => p.cat === 'calendar'));
+            renderGrid('grid-bottle', products.filter(p => p.cat === 'bottle'));
+            renderGrid('grid-shaking', products.filter(p => p.cat === 'shaking'));
+            renderGrid('grid-accessory', products.filter(p => p.cat === 'accessory'));
+            renderGrid('grid-prints', products.filter(p => p.cat === 'prints'));
+            
+            updateUI();
+        }
+
+        function renderGrid(gridId, items) {
+            const grid = document.getElementById(gridId);
+            if (!grid) return;
+            
+            let html = '';
+            items.forEach(prod => {
+                if (!prod.price) return;
+                const inCart = cart.find(item => item.id === prod.id);
+                const oldPriceHtml = prod.oldPrice ? `<span class="old-price">${prod.oldPrice} THB</span>` : '';
+                
+                html += `<div class="product-card">
+                    <div class="photo-placeholder"><span class="placeholder-text">PHOTO</span></div>
+                    <div class="product-code">${prod.name} ${prod.code || ''}</div>
+                    <div class="product-desc">${prod.desc.replace(/\n/g, '<br>')}</div>
+                    <div class="price-area">
+                        <span class="price">${prod.price} THB ${oldPriceHtml}</span>
+                        ${inCart ? 
+                            `<span class="in-cart-badge">✔ ในตะกร้า ${inCart.quantity}</span>` : 
+                            `<button class="add-to-cart-btn" onclick="addToCart('${prod.id}')">➕ เพิ่ม</button>`
+                        }
+                    </div>
+                </div>`;
+            });
+            grid.innerHTML = html;
+        }
+
+        function updateUI() {
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            const totalPrice = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            
+            document.getElementById('total-items').innerText = totalItems;
+            document.getElementById('total-amount').innerText = totalPrice + ' THB';
+            document.getElementById('cart-count').innerText = totalItems;
+            
+            let itemsHtml = '';
+            if (cart.length === 0) {
+                itemsHtml = '<div class="empty-cart">ตะกร้าว่างเปล่า</div>';
+            } else {
+                cart.forEach(item => {
+                    itemsHtml += `
+                        <div class="cart-item">
+                            <div class="cart-item-info">
+                                <div class="cart-item-name">${item.name}</div>
+                                <div class="cart-item-price">${item.price} THB</div>
+                            </div>
+                            <div class="cart-item-controls">
+                                <button onclick="updateQuantity('${item.id}', -1)">−</button>
+                                <span>${item.quantity}</span>
+                                <button onclick="updateQuantity('${item.id}', 1)">+</button>
+                            </div>
+                        </div>
+                    `;
+                });
+            }
+            document.getElementById('cart-items-list').innerHTML = itemsHtml;
+            document.getElementById('cart-total-price').innerText = totalPrice + ' THB';
+            
+            updateMobileCart();
+        }
+
+        // ============================================
+        // ОБРАБОТЧИКИ ДЛЯ ПК
+        // ============================================
+        document.getElementById('clearCartBtn')?.addEventListener('click', function() {
+            if (confirm('ล้างสินค้าทั้งหมดในตะกร้า?')) {
+                cart = [];
+                localStorage.setItem('photoCart', JSON.stringify(cart));
+                renderAll();
+            }
+        });
+
+        document.getElementById('checkoutBtn')?.addEventListener('click', function() {
+            const name = document.getElementById('clientName').value.trim();
+            const phone = document.getElementById('clientPhone').value.trim();
+            
+            if (!name || !phone) {
+                document.getElementById('crmStatus').innerHTML = '⚠️ กรุณากรอกชื่อและเบอร์โทร';
+                document.getElementById('crmStatus').className = 'status-message error';
+                return;
+            }
+            
+            if (cart.length === 0) {
+                document.getElementById('crmStatus').innerHTML = '⚠️ ไม่มีสินค้าในตะกร้า';
+                document.getElementById('crmStatus').className = 'status-message error';
+                return;
+            }
+            
+            sendToCRM('desktop');
+        });
+
+        document.getElementById('sendToCRM')?.addEventListener('click', function() {
+            sendToCRM('desktop');
+        });
+
+        // ЗАПУСК
+        renderAll();
+    </script>
+</body>
+</html>
