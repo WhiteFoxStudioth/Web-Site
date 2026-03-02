@@ -3,17 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>Photo Studio — แคตตาล็อกสินค้า</title>
+    <title>White Fox Studio — แคตตาล็อกสินค้า</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            transition: background-color 0.3s ease, border-color 0.2s ease, color 0.2s ease;
         }
 
-        /* Светлая тема (по умолчанию) */
         :root {
             --bg-primary: #f5f7fa;
             --bg-secondary: #ffffff;
@@ -27,352 +25,697 @@
             --text-muted: #546e7a;
             --border-color: #e9eef2;
             --border-dark: #d1d9e2;
-            --accent-dark: #0f172a;
-            --accent-hover: #1e293b;
-            --shadow-color: rgba(0,0,0,0.03);
-            --price-color: #0e2a3b;
-            --in-cart-bg: #eaf0f5;
-            --in-cart-text: #1e3643;
-            --success-bg: #e6f7e6;
-            --success-text: #1f7b4d;
-            --error-bg: #ffeae5;
-            --error-text: #b13e2d;
-            --placeholder-bg: #0a0a0a;
-            --placeholder-text: rgba(255,255,255,0.9);
-        }
-
-        /* Тёмная тема */
-        body.dark-theme {
-            --bg-primary: #0f172a;
-            --bg-secondary: #1e293b;
-            --bg-card: #1e293b;
-            --bg-nav: #1e293b;
-            --bg-button: #334155;
-            --bg-cart: #1e293b;
-            --bg-form: #0f172a;
-            --text-primary: #f1f5f9;
-            --text-secondary: #cbd5e1;
-            --text-muted: #94a3b8;
-            --border-color: #334155;
-            --border-dark: #475569;
-            --accent-dark: #0f172a;
-            --accent-hover: #334155;
-            --shadow-color: rgba(0,0,0,0.2);
-            --price-color: #f1f5f9;
-            --in-cart-bg: #334155;
-            --in-cart-text: #f1f5f9;
-            --success-bg: #14532d;
-            --success-text: #86efac;
-            --error-bg: #7f1d1d;
-            --error-text: #fecaca;
-            --placeholder-bg: #0a0a0a;
-            --placeholder-text: #94a3b8;
+            --accent-primary: #007883;
+            --accent-hover: #0a6570;
+            --accent-light: #d9f0f2;
+            --shadow-color: rgba(0, 120, 131, 0.2);
+            --price-color: #007883;
+            --in-cart-bg: #e0f2f5;
+            --in-cart-text: #007883;
+            --success-bg: #e3f7e3;
+            --success-text: #2e7d5e;
+            --error-bg: #ffe8e5;
+            --error-text: #c44536;
+            --red-warning: #d32f2f;
+            --modal-overlay: rgba(0,0,0,0.5);
         }
 
         body {
             background: var(--bg-primary);
             color: var(--text-primary);
             line-height: 1.4;
+            min-height: 100vh;
+            overflow-x: hidden;
         }
 
-        /* верхняя панель */
+        /* Верхняя панель */
         .top-bar {
             position: sticky;
             top: 0;
             z-index: 50;
             background: var(--bg-secondary);
-            padding: 0.8rem 2rem;
+            padding: 0.6rem 2rem;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            box-shadow: 0 2px 10px var(--shadow-color);
-            border-bottom: 1px solid var(--border-color);
+            box-shadow: 0 4px 20px var(--shadow-color);
+            border-bottom: 3px solid var(--accent-primary);
+            flex-wrap: wrap;
+            gap: 0.5rem;
         }
 
-        .logo {
-            font-weight: 700;
-            font-size: 1.3rem;
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: nowrap;
+        }
+
+        .logo-img {
+            width: 40px;
+            height: 40px;
+            border-radius: 0;
+            object-fit: contain;
+            border: none;
+            background: transparent;
+            filter: none;
+            -webkit-filter: none;
+            mix-blend-mode: normal;
+            image-rendering: crisp-edges;
+            color: inherit;
+        }
+
+        .logo-text {
+            font-weight: 800;
+            font-size: 1.4rem;
+            color: var(--accent-primary);
+            white-space: nowrap;
+        }
+
+        .search-container {
+            position: relative;
+            flex: 1;
+            max-width: 400px;
+            min-width: 200px;
+        }
+
+        .search-box {
+            display: flex;
+            align-items: center;
+            background: white;
+            border-radius: 50px;
+            padding: 0.2rem 0.2rem 0.2rem 1.5rem;
+            border: 2px solid var(--accent-primary);
+            box-shadow: 0 2px 8px var(--shadow-color);
+        }
+
+        .search-box input {
+            background: transparent;
+            border: none;
+            padding: 0.7rem 0;
+            width: 100%;
+            outline: none;
             color: var(--text-primary);
+            font-size: 0.95rem;
+        }
+
+        .search-box button {
+            background: var(--accent-primary);
+            border: none;
+            color: white;
+            padding: 0.7rem 1.8rem;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 4px 10px var(--shadow-color);
+            transition: 0.2s;
+        }
+
+        .search-box button:hover {
+            background: var(--accent-hover);
+            transform: scale(1.02);
         }
 
         .cart-summary {
-            background: var(--bg-button);
+            background: white;
             padding: 0.6rem 1.5rem;
-            border-radius: 40px;
+            border-radius: 50px;
             font-weight: 600;
             display: flex;
             align-items: center;
             gap: 15px;
-            color: var(--text-primary);
+            border: 2px solid var(--accent-primary);
+            box-shadow: 0 2px 8px var(--shadow-color);
         }
 
         .cart-summary .total {
-            background: var(--accent-dark);
+            background: var(--accent-primary);
             color: white;
-            padding: 0.3rem 1rem;
+            padding: 0.3rem 1.2rem;
             border-radius: 30px;
         }
 
-        /* Кнопка переключения темы */
-        .theme-toggle {
-            background: var(--bg-button);
-            border: 1px solid var(--border-color);
-            border-radius: 40px;
+        .lang-toggle {
+            background: white;
+            border: 2px solid var(--accent-primary);
+            border-radius: 50px;
             padding: 0.5rem 1.2rem;
             font-size: 0.95rem;
             cursor: pointer;
-            color: var(--text-primary);
+            color: var(--accent-primary);
+            font-weight: 600;
             display: flex;
             align-items: center;
             gap: 8px;
-            margin-left: 1rem;
             transition: 0.2s;
         }
 
-        .theme-toggle:hover {
-            background: var(--accent-hover);
+        .lang-toggle:hover {
+            background: var(--accent-primary);
             color: white;
         }
 
-        /* НАВИГАЦИЯ ПО КАТЕГОРИЯМ ДЛЯ ПК */
+        /* НАВИГАЦИЯ */
         .pc-category-nav {
-            background: var(--bg-nav);
-            padding: 0.8rem 2rem;
-            border-bottom: 1px solid var(--border-color);
+            background: var(--accent-primary);
+            padding: 0.6rem 2rem;
+            border-bottom: 2px solid #005f66;
             display: flex;
             flex-wrap: wrap;
             gap: 0.5rem;
             align-items: center;
             position: sticky;
-            top: 73px;
+            top: 80px;
             z-index: 45;
-            box-shadow: 0 2px 10px var(--shadow-color);
+            box-shadow: 0 4px 15px var(--shadow-color);
         }
 
         .pc-category-nav .nav-btn {
             padding: 0.5rem 1.2rem;
-            background: var(--bg-button);
-            border: 1px solid var(--border-color);
+            background: transparent;
+            border: 2px solid white;
             border-radius: 40px;
-            font-size: 0.9rem;
-            font-weight: 500;
-            color: var(--text-secondary);
+            font-size: 1rem;
+            font-weight: 700;
+            color: white;
             cursor: pointer;
-            transition: 0.2s;
             white-space: nowrap;
+            transition: 0.2s;
+            min-width: 50px;
+            text-align: center;
         }
 
         .pc-category-nav .nav-btn:hover {
-            background: var(--accent-hover);
-            color: white;
-            border-color: var(--accent-hover);
+            background: white;
+            color: var(--accent-primary);
+            border-color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
         }
 
-        /* навигация по категориям для мобильных */
         .mobile-category-nav {
             display: none;
-            background: var(--bg-nav);
-            padding: 0.5rem;
-            border-bottom: 1px solid var(--border-color);
+            background: var(--accent-primary);
+            padding: 0.8rem 0.5rem;
+            border-bottom: 2px solid #005f66;
             overflow-x: auto;
             white-space: nowrap;
+            gap: 0.8rem;
             -webkit-overflow-scrolling: touch;
-            gap: 0.5rem;
         }
 
         .mobile-category-nav .cat-link {
             display: inline-block;
-            padding: 0.5rem 1rem;
-            background: var(--bg-button);
-            border-radius: 30px;
-            font-size: 0.85rem;
-            font-weight: 500;
-            color: var(--text-secondary);
+            padding: 0.7rem 1.2rem;
+            background: transparent;
+            border: 2px solid white;
+            border-radius: 40px;
+            font-size: 1rem;
+            font-weight: 700;
+            color: white;
             text-decoration: none;
             margin-right: 0.5rem;
+            min-width: auto;
+            text-align: center;
         }
 
-        /* основная сетка для ПК */
         .main-layout {
             display: grid;
-            grid-template-columns: 1fr 400px;
+            grid-template-columns: 1fr 380px;
             gap: 2rem;
             max-width: 1600px;
             margin: 2rem auto;
             padding: 0 2rem;
         }
 
-        /* каталог товаров */
         .catalog {
             min-width: 0;
+            position: relative;
+            padding-bottom: 4rem;
         }
 
-        h1 {
-            font-size: 2.2rem;
-            margin-bottom: 0.3rem;
-            color: var(--text-primary);
+        /* ФОРМА */
+        .desktop-form {
+            background: white;
+            border-radius: 30px;
+            padding: 1.8rem;
+            margin-bottom: 1.5rem;
+            border: 2px solid var(--accent-primary);
+            box-shadow: 0 8px 20px var(--shadow-color);
         }
 
-        .sub {
-            color: var(--text-muted);
-            font-size: 1.1rem;
+        .form-section {
             margin-bottom: 2rem;
-            border-left: 4px solid var(--border-dark);
-            padding-left: 1rem;
         }
 
+        .form-section h3 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--accent-primary);
+            margin-bottom: 1.2rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 3px solid var(--accent-primary);
+        }
+
+        .form-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .form-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .form-field {
+            flex: 1 1 200px;
+            position: relative;
+        }
+
+        .form-field input, .form-field select {
+            width: 100%;
+            padding: 0.9rem 1rem;
+            border: 2px solid var(--border-color);
+            border-radius: 16px;
+            font-size: 0.95rem;
+            background: white;
+            transition: 0.2s;
+        }
+
+        .form-field select {
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23334155' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 1rem center;
+            background-size: 1rem;
+        }
+
+        .form-field input:focus, .form-field select:focus {
+            outline: none;
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 0 3px var(--shadow-color);
+        }
+
+        .form-field.filled input, .form-field.filled select {
+            border-left: 4px solid #4caf50;
+            background-color: #f8fff8;
+        }
+
+        .optional-badge {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #888;
+            font-size: 0.8rem;
+            background: #f0f0f0;
+            padding: 4px 10px;
+            border-radius: 30px;
+            pointer-events: none;
+        }
+
+        /* МОБИЛЬНАЯ ФОРМА */
+        .mobile-form {
+            display: none;
+            background: white;
+            border-radius: 30px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border: 2px solid var(--accent-primary);
+            box-shadow: 0 8px 20px var(--shadow-color);
+        }
+
+        .mobile-form h3 {
+            font-size: 1.2rem;
+            color: var(--accent-primary);
+            margin: 1.2rem 0 0.8rem;
+            font-weight: 700;
+            padding-bottom: 0.3rem;
+            border-bottom: 2px solid var(--accent-primary);
+        }
+
+        .mobile-form h3:first-child {
+            margin-top: 0;
+        }
+
+        .mobile-field {
+            margin-bottom: 1rem;
+        }
+
+        .mobile-field input, .mobile-field select {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid var(--border-color);
+            border-radius: 16px;
+            font-size: 1rem;
+            transition: 0.2s;
+            background: white;
+        }
+
+        .mobile-field select {
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23334155' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 1rem center;
+            background-size: 1rem;
+        }
+
+        .mobile-field input:focus, .mobile-field select:focus {
+            outline: none;
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 0 3px var(--shadow-color);
+        }
+
+        .mobile-field.filled input, .mobile-field.filled select {
+            border-left: 4px solid #4caf50;
+        }
+
+        /* Стили для поля даты */
+        .date-input-wrapper {
+            position: relative;
+            width: 100%;
+        }
+        
+        .date-input-wrapper input {
+            width: 100%;
+            padding: 0.9rem 1rem;
+            border: 2px solid var(--border-color);
+            border-radius: 16px;
+            font-size: 0.95rem;
+            background: white;
+            transition: 0.2s;
+        }
+        
+        .date-input-wrapper input:focus {
+            outline: none;
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 0 3px var(--shadow-color);
+        }
+        
+        .date-placeholder {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #888;
+            font-size: 0.95rem;
+            pointer-events: none;
+            transition: 0.2s;
+            background: white;
+            padding: 0 0.3rem;
+        }
+        
+        .date-input-wrapper.filled .date-placeholder,
+        .date-input-wrapper input:focus + .date-placeholder {
+            top: 0;
+            font-size: 0.75rem;
+            color: var(--accent-primary);
+        }
+
+        .form-warning {
+            text-align: center;
+            margin: 0 0 1rem 0;
+            color: #d32f2f;
+            font-weight: 600;
+            font-size: 0.9rem;
+            background: transparent;
+            padding: 0;
+            border: none;
+            display: inline-block;
+            width: auto;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .send-crm-btn {
+            background: var(--accent-primary);
+            color: white;
+            border: none;
+            padding: 1.2rem 4rem;
+            border-radius: 60px;
+            font-weight: 800;
+            font-size: 1.6rem;
+            cursor: pointer;
+            box-shadow: 0 8px 25px var(--shadow-color);
+            transition: 0.2s;
+            border: 3px solid white;
+        }
+
+        .send-crm-btn:hover {
+            background: var(--accent-hover);
+            transform: scale(1.05);
+        }
+
+        .send-crm-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .bottom-ok {
+            text-align: center;
+            margin: 4rem 0 2rem;
+            z-index: 20;
+        }
+
+        .status-message {
+            margin: 1rem 0;
+            padding: 1rem;
+            border-radius: 50px;
+            text-align: center;
+            font-size: 1rem;
+            font-weight: 600;
+            width: 100%;
+        }
+
+        .status-success {
+            background: var(--success-bg);
+            color: var(--success-text);
+            border: 2px solid var(--success-text);
+        }
+
+        .status-error {
+            background: var(--error-bg);
+            color: var(--error-text);
+            border: 2px solid var(--error-text);
+        }
+
+        /* Категории */
         .category {
-            margin-top: 2.5rem;
-            margin-bottom: 2rem;
-            scroll-margin-top: 140px;
+            margin-top: 3rem;
+            scroll-margin-top: 150px;
         }
 
         .category-header {
-            border-bottom: 2px solid var(--border-dark);
+            border-bottom: 3px solid var(--accent-primary);
             padding-bottom: 0.7rem;
-            margin-bottom: 1.5rem;
+            margin-bottom: 2rem;
         }
 
         .category-title {
-            font-size: 1.6rem;
-            font-weight: 620;
-            color: var(--text-primary);
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--accent-primary);
         }
 
         .product-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 1.5rem;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
         }
 
         .product-card {
-            background: var(--bg-card);
-            border-radius: 24px;
+            background: white;
+            border-radius: 30px;
             padding: 1.5rem;
-            border: 1px solid var(--border-color);
-            transition: all 0.2s;
+            border: 2px solid var(--border-color);
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
         }
 
         .product-card:hover {
-            box-shadow: 0 12px 30px var(--shadow-color);
-            border-color: var(--border-dark);
-            transform: translateY(-3px);
+            border-color: var(--accent-primary);
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px var(--shadow-color);
         }
 
-        .photo-placeholder {
-            background: var(--placeholder-bg);
-            border-radius: 18px;
-            height: 160px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--placeholder-text);
-            font-size: 0.85rem;
+        .product-image {
+            width: 100%;
+            aspect-ratio: 1/1;
+            border-radius: 20px;
             margin-bottom: 1rem;
+            overflow: hidden;
+            background: #f0f0f0;
+            cursor: pointer;
+            border: 2px solid var(--border-color);
         }
 
-        .placeholder-text {
-            background: rgba(255,255,255,0.1);
-            padding: 6px 18px;
-            border-radius: 30px;
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: none;
+            -webkit-filter: none;
+            image-rendering: crisp-edges;
         }
 
-        .product-code {
+        .product-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 8px;
+        }
+
+        .product-sku {
+            font-weight: 600;
+            color: var(--accent-primary);
+            font-size: 1rem;
+            background: transparent;
+            padding: 0;
+            border: none;
+        }
+
+        .product-title {
             font-weight: 700;
             font-size: 1.2rem;
             color: var(--text-primary);
-            margin-bottom: 0.3rem;
+            line-height: 1.3;
+            margin-bottom: 0.5rem;
         }
 
-        .product-desc {
-            font-size: 0.9rem;
+        .product-specs {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            line-height: 1.5;
+            background: var(--bg-form);
+            padding: 0.8rem 1rem;
+            border-radius: 18px;
+            border: 2px solid var(--border-color);
+            flex: 1;
+        }
+
+        .package-description {
             background: var(--bg-form);
             padding: 1rem;
-            border-radius: 16px;
-            margin: 0.8rem 0;
-            border: 1px solid var(--border-color);
-            white-space: pre-line;
+            border-radius: 18px;
+            margin: 0.8rem 0 1rem 0;
+            border: 2px solid var(--border-color);
+            font-size: 0.9rem;
             line-height: 1.5;
-            color: var(--text-secondary);
+            white-space: pre-line;
+            flex: 1;
         }
 
         .price-area {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-top: 1rem;
+            margin-top: auto;
+            padding-top: 0.5rem;
+            min-height: 56px;
+        }
+
+        .price-wrapper {
+            display: flex;
+            align-items: baseline;
+            gap: 0.5rem;
+            flex-wrap: wrap;
         }
 
         .price {
-            font-size: 1.4rem;
-            font-weight: 700;
+            font-size: 1.5rem;
+            font-weight: 800;
             color: var(--price-color);
+            white-space: nowrap;
         }
 
         .old-price {
-            font-size: 0.85rem;
+            font-size: 1rem;
             color: var(--text-muted);
             text-decoration: line-through;
-            margin-left: 5px;
+            white-space: nowrap;
         }
 
+        .from-price {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-right: 0.3rem;
+        }
+
+        /* Единый стиль для всех кнопок */
         .add-to-cart-btn {
-            background: var(--accent-dark);
+            background: var(--accent-primary);
             color: white;
             border: none;
-            padding: 0.7rem 1.5rem;
-            border-radius: 40px;
-            font-weight: 600;
-            font-size: 1rem;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            font-size: 26px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             cursor: pointer;
+            box-shadow: 0 6px 15px var(--shadow-color);
             transition: 0.2s;
+            flex-shrink: 0;
         }
 
         .add-to-cart-btn:hover {
             background: var(--accent-hover);
-            transform: scale(0.98);
+            transform: scale(1.15);
         }
 
         .in-cart-badge {
-            background: var(--in-cart-bg);
-            padding: 0.6rem 1.2rem;
-            border-radius: 40px;
-            font-size: 0.95rem;
-            color: var(--in-cart-text);
-            font-weight: 500;
+            background: var(--accent-primary);
+            color: white;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.1rem;
+            box-shadow: 0 6px 15px var(--shadow-color);
+            border: 2px solid white;
+            flex-shrink: 0;
         }
 
-        /* корзина на ПК */
+        /* Корзина */
         .cart-panel {
-            background: var(--bg-cart);
-            border-radius: 28px;
+            background: white;
+            border-radius: 30px;
             padding: 1.8rem;
-            border: 1px solid var(--border-color);
+            border: 2px solid var(--accent-primary);
             position: sticky;
-            top: 140px;
-            max-height: calc(100vh - 160px);
+            top: 150px;
+            max-height: calc(100vh - 180px);
             overflow-y: auto;
-            box-shadow: 0 12px 35px var(--shadow-color);
+            box-shadow: 0 15px 35px var(--shadow-color);
         }
 
         .cart-header {
-            font-size: 1.4rem;
+            font-size: 1.5rem;
             font-weight: 700;
             padding-bottom: 1.2rem;
-            border-bottom: 2px solid var(--border-dark);
-            margin-bottom: 1.2rem;
+            border-bottom: 3px solid var(--accent-primary);
             display: flex;
             justify-content: space-between;
-            align-items: center;
-            color: var(--text-primary);
+            color: var(--accent-primary);
         }
 
         .cart-count {
-            background: var(--accent-dark);
+            background: var(--accent-primary);
             color: white;
-            padding: 0.3rem 1rem;
-            border-radius: 30px;
-            font-size: 1rem;
+            padding: 0.4rem 1.2rem;
+            border-radius: 40px;
         }
 
         .cart-items {
@@ -389,20 +732,30 @@
             border-bottom: 1px dashed var(--border-color);
         }
 
-        .cart-item-info {
-            flex: 2;
+        .cart-item-name .item-sku {
+            font-weight: 600;
+            color: var(--accent-primary);
+            background: var(--accent-light);
+            padding: 2px 8px;
+            border-radius: 30px;
+            font-size: 0.8rem;
+            margin-right: 6px;
+            display: inline-block;
         }
 
         .cart-item-name {
-            font-weight: 600;
-            font-size: 1rem;
+            font-weight: 700;
             margin-bottom: 0.2rem;
-            color: var(--text-primary);
+            color: var(--accent-primary);
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 4px;
         }
 
         .cart-item-price {
-            color: var(--text-muted);
-            font-size: 0.95rem;
+            color: var(--price-color);
+            font-weight: 700;
         }
 
         .cart-item-controls {
@@ -419,1021 +772,1706 @@
             height: 36px;
             border-radius: 50%;
             border: none;
-            background: var(--bg-card);
+            background: white;
             font-size: 1.2rem;
             font-weight: 700;
             cursor: pointer;
-            box-shadow: 0 2px 5px var(--shadow-color);
-            transition: 0.2s;
-            color: var(--text-primary);
-        }
-
-        .cart-item-controls button:hover {
-            background: var(--accent-hover);
-            color: white;
-            transform: scale(0.95);
-        }
-
-        .cart-item-controls span {
-            min-width: 30px;
-            text-align: center;
-            font-weight: 600;
-            font-size: 1rem;
-            color: var(--text-primary);
+            color: var(--accent-primary);
+            border: 2px solid var(--accent-primary);
         }
 
         .cart-total {
-            font-size: 1.4rem;
-            font-weight: 700;
-            border-top: 2px solid var(--border-dark);
+            font-size: 1.5rem;
+            font-weight: 800;
+            border-top: 3px solid var(--accent-primary);
             padding-top: 1.2rem;
             display: flex;
             justify-content: space-between;
-            margin-bottom: 1.5rem;
-            color: var(--text-primary);
+            color: var(--accent-primary);
         }
 
-        /* форма клиента */
-        .client-form {
-            background: var(--bg-form);
-            border-radius: 20px;
-            padding: 1.5rem;
-            margin-bottom: 1.2rem;
-        }
-
-        .form-title {
-            font-weight: 600;
-            font-size: 1.1rem;
-            margin-bottom: 1.2rem;
-            color: var(--text-primary);
-        }
-
-        .form-group {
-            margin-bottom: 1rem;
-        }
-
-        .form-group input,
-        .form-group textarea {
-            width: 100%;
-            padding: 0.9rem 1.2rem;
-            border: 1px solid var(--border-color);
-            border-radius: 20px;
-            font-size: 1rem;
-            background: var(--bg-card);
-            color: var(--text-primary);
-            transition: 0.2s;
-        }
-
-        .form-group input:focus,
-        .form-group textarea:focus {
-            outline: none;
-            border-color: var(--accent-dark);
-            box-shadow: 0 0 0 3px rgba(15,42,64,0.1);
-        }
-
-        .form-group input::placeholder,
-        .form-group textarea::placeholder {
-            color: var(--text-muted);
-        }
-
-        .form-group textarea {
-            resize: vertical;
-            min-height: 70px;
-        }
-
-        .send-crm-btn {
-            background: var(--accent-dark);
-            color: white;
-            border: none;
-            padding: 1.1rem;
-            border-radius: 40px;
-            font-weight: 700;
-            width: 100%;
-            font-size: 1.1rem;
-            cursor: pointer;
-            margin: 1rem 0;
-            transition: 0.2s;
-        }
-
-        .send-crm-btn:hover {
-            background: var(--accent-hover);
-        }
-
-        .cart-actions {
-            display: flex;
-            gap: 12px;
-            margin-top: 1rem;
-        }
-
-        .cart-actions button {
-            flex: 1;
-            padding: 1rem;
-            border-radius: 40px;
-            font-weight: 600;
-            font-size: 1rem;
-            border: none;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-
-        .checkout-btn {
-            background: var(--accent-dark);
-            color: white;
-        }
-
-        .checkout-btn:hover {
-            background: var(--accent-hover);
-        }
-
-        .clear-btn {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            color: var(--text-primary);
-        }
-
-        .clear-btn:hover {
-            background: var(--bg-button);
-        }
-
-        .status-message {
-            margin-top: 0.8rem;
-            padding: 0.8rem;
-            border-radius: 20px;
-            text-align: center;
-            font-size: 0.95rem;
-        }
-
-        .success {
-            background: var(--success-bg);
-            color: var(--success-text);
-        }
-
-        .error {
-            background: var(--error-bg);
-            color: var(--error-text);
-        }
-
-        .empty-cart {
-            text-align: center;
-            padding: 2rem;
-            color: var(--text-muted);
-            font-size: 1rem;
-        }
-
-        .footer-note {
-            text-align: center;
-            color: var(--text-muted);
+        .cart-discount {
             font-size: 0.9rem;
-            margin-top: 3rem;
-            padding-top: 1.5rem;
-            border-top: 1px solid var(--border-color);
+            color: #2e7d5e;
+            margin-top: 0.5rem;
+            padding: 0.3rem 0.8rem;
+            background: #e3f7e3;
+            border-radius: 30px;
+            display: inline-block;
         }
 
-        /* мобильная версия */
+        /* Мобильная корзина */
+        .mobile-cart-button {
+            display: none;
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--accent-primary);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 1rem 1.5rem;
+            font-weight: 700;
+            font-size: 1rem;
+            box-shadow: 0 10px 25px var(--shadow-color);
+            z-index: 1000;
+            align-items: center;
+            gap: 8px;
+            border: 2px solid white;
+            cursor: pointer;
+        }
+
+        .mobile-cart-panel {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            border-top-left-radius: 40px;
+            border-top-right-radius: 40px;
+            box-shadow: 0 -10px 30px rgba(0,0,0,0.3);
+            padding: 1.5rem;
+            z-index: 2000;
+            transform: translateY(100%);
+            transition: transform 0.3s ease-in-out;
+            max-height: 85vh;
+            overflow-y: auto;
+            border-top: 3px solid var(--accent-primary);
+            visibility: hidden;
+        }
+
+        .mobile-cart-panel.open {
+            transform: translateY(0);
+            visibility: visible;
+        }
+
+        .mobile-cart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--accent-primary);
+        }
+
+        .close-cart {
+            background: none;
+            border: none;
+            font-size: 2rem;
+            cursor: pointer;
+            color: var(--accent-primary);
+            padding: 0.5rem 1rem;
+        }
+
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 1500;
+            backdrop-filter: blur(3px);
+        }
+
+        .overlay.show {
+            display: block;
+        }
+
+        .toast-message {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--accent-primary);
+            color: white;
+            padding: 1.2rem 2.5rem;
+            border-radius: 60px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            box-shadow: 0 10px 30px var(--shadow-color);
+            z-index: 2100;
+            display: none;
+            border: 3px solid white;
+        }
+
+        .toast-message.show {
+            display: block;
+        }
+
+        /* ========== МОДАЛЬНОЕ ОКНО ========== */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--modal-overlay);
+            z-index: 3000;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(5px);
+        }
+
+        .modal.show {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 40px;
+            width: 90%;
+            max-width: 500px;
+            max-height: 80vh;
+            overflow-y: auto;
+            padding: 2rem;
+            border: 3px solid var(--accent-primary);
+            box-shadow: 0 20px 40px var(--shadow-color);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 3px solid var(--accent-primary);
+        }
+
+        .modal-header h2 {
+            color: var(--accent-primary);
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 2rem;
+            cursor: pointer;
+            color: var(--accent-primary);
+            padding: 0.5rem;
+            line-height: 1;
+        }
+
+        .modal-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.8rem;
+            border-bottom: 1px solid var(--border-color);
+            gap: 1rem;
+        }
+
+        .modal-item:last-child {
+            border-bottom: none;
+        }
+
+        .modal-item-info {
+            flex: 1;
+        }
+
+        .modal-item-sku {
+            font-weight: 700;
+            color: var(--accent-primary);
+            font-size: 1rem;
+            margin-right: 0.5rem;
+        }
+
+        .modal-item-desc {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .modal-item-price {
+            font-weight: 700;
+            color: var(--price-color);
+            font-size: 1rem;
+            white-space: nowrap;
+            margin: 0 0.5rem;
+        }
+
+        .modal-item-controls {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .modal-item-controls button {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: none;
+            background: var(--accent-primary);
+            color: white;
+            font-size: 1.2rem;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 8px var(--shadow-color);
+        }
+
+        .modal-item-controls button:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        .modal-item-controls span {
+            min-width: 30px;
+            text-align: center;
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        .modal-footer {
+            margin-top: 1.5rem;
+            padding-top: 1rem;
+            border-top: 2px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-total {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--accent-primary);
+        }
+
+        .modal-add-btn {
+            background: var(--accent-primary);
+            color: white;
+            border: none;
+            padding: 0.8rem 2rem;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: 0.2s;
+            border: 2px solid white;
+            box-shadow: 0 4px 15px var(--shadow-color);
+        }
+
+        .modal-add-btn:hover {
+            background: var(--accent-hover);
+            transform: scale(1.05);
+        }
+
+        /* Групповая карточка - как обычные товары */
+        .group-card {
+            cursor: pointer;
+        }
+
+        /* ========== МОБИЛЬНАЯ АДАПТАЦИЯ ========== */
         @media (max-width: 900px) {
-            .pc-category-nav {
-                display: none;
-            }
-
-            .top-bar .cart-summary {
-                display: none;
-            }
-
-            .mobile-category-nav {
-                display: flex;
-            }
-
-            .main-layout {
-                grid-template-columns: 1fr;
-                padding: 0 1rem;
-                margin: 1rem auto;
-            }
-
-            .cart-panel {
-                display: none;
-            }
-
-            h1 {
-                font-size: 1.6rem;
-            }
-
-            .sub {
-                font-size: 0.9rem;
-                margin-bottom: 1rem;
-            }
-
-            .category-title {
-                font-size: 1.3rem;
-            }
-
-            .product-grid {
-                gap: 1rem;
-            }
-
+            .pc-category-nav { display: none; }
+            .cart-panel { display: none; }
+            .mobile-category-nav { display: flex; }
+            .top-bar .cart-summary { display: none; }
+            .top-bar .search-container { display: flex; max-width: 100%; width: 100%; order: 3; }
+            .main-layout { grid-template-columns: 1fr; padding: 0 1rem; }
+            .desktop-form { display: none; }
+            .mobile-form { display: block; }
+            .product-grid { grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+            .mobile-cart-button { display: flex; }
+            
             .product-card {
                 padding: 1rem;
             }
-
-            .photo-placeholder {
-                height: 120px;
+            
+            .price {
+                font-size: 1.2rem;
             }
-
-            .add-to-cart-btn {
-                padding: 0.5rem 1rem;
+            
+            .old-price {
+                font-size: 0.8rem;
+            }
+            
+            .add-to-cart-btn,
+            .in-cart-badge {
+                width: 40px;
+                height: 40px;
+                font-size: 22px;
+            }
+            
+            .in-cart-badge {
+                font-size: 1rem;
+            }
+            
+            .price-area {
+                min-height: 48px;
+            }
+            
+            .product-specs,
+            .package-description {
+                padding: 0.6rem;
+                font-size: 0.85rem;
+            }
+            
+            .product-title {
+                font-size: 1rem;
+            }
+            
+            .product-sku {
                 font-size: 0.9rem;
             }
-
-            .mobile-cart-button {
-                display: flex;
-                position: fixed;
-                bottom: 20px;
-                right: 20px;
-                background: var(--accent-dark);
-                color: white;
-                border: none;
-                border-radius: 50px;
-                padding: 1rem 1.5rem;
-                font-weight: 600;
-                font-size: 1rem;
-                box-shadow: 0 5px 20px var(--shadow-color);
-                z-index: 90;
-                align-items: center;
-                gap: 8px;
+            
+            .product-image img {
+                filter: none;
+                -webkit-filter: none;
             }
-
-            .mobile-cart-panel {
-                position: fixed;
-                bottom: 0;
-                left: 0;
-                right: 0;
-                background: var(--bg-cart);
-                border-top-left-radius: 30px;
-                border-top-right-radius: 30px;
-                box-shadow: 0 -5px 30px var(--shadow-color);
+            
+            .modal-content {
+                width: 95%;
                 padding: 1.5rem;
-                z-index: 100;
-                transform: translateY(100%);
-                transition: transform 0.3s ease;
-                max-height: 85vh;
-                overflow-y: auto;
             }
-
-            .mobile-cart-panel.open {
-                transform: translateY(0);
+            
+            .modal-item {
+                flex-wrap: wrap;
+                padding: 0.6rem;
             }
-
-            .mobile-cart-header {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                margin-bottom: 1rem;
-                padding-bottom: 0.5rem;
-                border-bottom: 2px solid var(--border-dark);
+            
+            .modal-item-sku {
+                font-size: 0.9rem;
             }
-
-            .close-cart {
-                background: none;
-                border: none;
-                font-size: 1.8rem;
-                cursor: pointer;
-                padding: 0.5rem;
-                color: var(--text-primary);
+            
+            .modal-item-desc {
+                font-size: 0.8rem;
             }
-
-            .overlay {
-                display: none;
-                position: fixed;
-                top: 0;
-                left: 0;
-                right: 0;
-                bottom: 0;
-                background: rgba(0,0,0,0.5);
-                z-index: 95;
+            
+            .modal-item-price {
+                font-size: 0.9rem;
             }
-
-            .overlay.show {
-                display: block;
+            
+            .modal-item-controls button {
+                width: 32px;
+                height: 32px;
+                font-size: 1rem;
+            }
+            
+            .modal-item-controls span {
+                font-size: 1rem;
+                min-width: 25px;
+            }
+            
+            .modal-add-btn {
+                padding: 0.6rem 1.5rem;
+                font-size: 1rem;
             }
         }
 
-        @media (min-width: 901px) {
-            .mobile-cart-button {
-                display: none;
+        @media (max-width: 480px) {
+            .product-grid {
+                gap: 0.8rem;
             }
-            .mobile-cart-panel {
-                display: none;
+            
+            .price {
+                font-size: 1.1rem;
             }
-            .overlay {
-                display: none !important;
+            
+            .add-to-cart-btn,
+            .in-cart-badge {
+                width: 36px;
+                height: 36px;
+                font-size: 20px;
+            }
+            
+            .price-area {
+                min-height: 44px;
             }
         }
     </style>
 </head>
 <body>
-    <!-- верхняя панель для ПК -->
+    <!-- Modal window for grouped products -->
+    <div class="modal" id="productModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle">Select items</h2>
+                <button class="modal-close" onclick="closeModal()">✕</button>
+            </div>
+            <div id="modalItems" class="modal-items">
+                <!-- Group products will be added here -->
+            </div>
+            <div class="modal-footer">
+                <span class="modal-total" id="modalTotal">0 THB</span>
+                <button class="modal-add-btn" id="modalAddBtn" onclick="addModalItemsToCart()">Add selected</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="toastMessage" class="toast-message"></div>
+
+    <!-- Top bar -->
     <div class="top-bar">
+        <div class="logo-area">
+            <img class="logo-img" src="https://i.postimg.cc/Rh1kRjsQ/LOGOTIP-WF-new.png" alt="logo" onerror="this.src='https://i.postimg.cc/Rh1kRjsQ/LOGOTIP-WF-new.png'">
+            <div class="logo-text">WHITE FOX STUDIO</div>
+        </div>
         <div style="display: flex; align-items: center; gap: 1rem;">
-            <div class="logo">📸 PHOTO STUDIO</div>
-            <button class="theme-toggle" onclick="toggleTheme()">
-                <span id="theme-icon">🌙</span> 
-                <span id="theme-text-th">โหมดกลางคืน</span>
-                <span id="theme-text-en" style="display: none;">Dark mode</span>
-            </button>
+            <button class="lang-toggle" id="langToggle"><span id="lang-icon">🇹🇭</span><span id="lang-text">TH</span></button>
+        </div>
+        <div class="search-container">
+            <div class="search-box">
+                <input type="text" id="searchInput" data-i18n="searchPlaceholder" placeholder="Search by code (A11, W16, X14...)" onkeypress="if(event.key==='Enter') searchProduct()">
+                <button onclick="searchProduct()" data-i18n="searchBtn">Search</button>
+            </div>
         </div>
         <div class="cart-summary">
-            <span>🛒 <span id="total-items">0</span> ชิ้น</span>
+            <span>🛒 <span id="total-items">0</span> <span data-i18n="items">items</span></span>
             <span class="total" id="total-amount">0 THB</span>
         </div>
     </div>
 
-    <!-- НАВИГАЦИЯ ПО КАТЕГОРИЯМ ДЛЯ ПК -->
-    <div class="pc-category-nav">
-        <button class="nav-btn" onclick="document.getElementById('cat1').scrollIntoView({behavior:'smooth'})">📦 S/M/L</button>
-        <button class="nav-btn" onclick="document.getElementById('cat2').scrollIntoView({behavior:'smooth'})">✨ ACRYLIC</button>
-        <button class="nav-btn" onclick="document.getElementById('cat3').scrollIntoView({behavior:'smooth'})">🖤 FLOAT</button>
-        <button class="nav-btn" onclick="document.getElementById('cat4').scrollIntoView({behavior:'smooth'})">🖼️ CANVAS</button>
-        <button class="nav-btn" onclick="document.getElementById('cat5').scrollIntoView({behavior:'smooth'})">🧩 COLLAGE</button>
-        <button class="nav-btn" onclick="document.getElementById('cat6').scrollIntoView({behavior:'smooth'})">📚 BOOKS</button>
-        <button class="nav-btn" onclick="document.getElementById('cat7').scrollIntoView({behavior:'smooth'})">📆 CAL</button>
-        <button class="nav-btn" onclick="document.getElementById('cat8').scrollIntoView({behavior:'smooth'})">💧 BOTTLE</button>
-        <button class="nav-btn" onclick="document.getElementById('cat9').scrollIntoView({behavior:'smooth'})">🎲 SHAKING</button>
-        <button class="nav-btn" onclick="document.getElementById('cat10').scrollIntoView({behavior:'smooth'})">📱 ACCESS</button>
-        <button class="nav-btn" onclick="document.getElementById('cat11').scrollIntoView({behavior:'smooth'})">🖨️ PRINTS</button>
-    </div>
-
-    <!-- навигация по категориям для мобильных -->
-    <div class="mobile-category-nav">
-        <a class="cat-link" href="#cat1">📦 S/M/L</a>
-        <a class="cat-link" href="#cat2">✨ ACRYLIC</a>
-        <a class="cat-link" href="#cat3">🖤 FLOAT</a>
-        <a class="cat-link" href="#cat4">🖼️ CANVAS</a>
-        <a class="cat-link" href="#cat5">🧩 COLLAGE</a>
-        <a class="cat-link" href="#cat6">📚 BOOKS</a>
-        <a class="cat-link" href="#cat7">📆 CAL</a>
-        <a class="cat-link" href="#cat8">💧 BOTTLE</a>
-        <a class="cat-link" href="#cat9">🎲 SHAKING</a>
-        <a class="cat-link" href="#cat10">📱 ACCESS</a>
-        <a class="cat-link" href="#cat11">🖨️ PRINTS</a>
-    </div>
-
-    <!-- затемнение для мобильной корзины -->
-    <div class="overlay" id="overlay" onclick="closeMobileCart()"></div>
-
-    <!-- кнопка открытия корзины на мобильных -->
-    <button class="mobile-cart-button" onclick="openMobileCart()">
-        🛒 <span id="mobile-cart-count">0</span> • <span id="mobile-cart-total">0</span> THB
-    </button>
-
-    <!-- мобильная корзина (выезжающая) -->
-    <div class="mobile-cart-panel" id="mobileCart">
-        <div class="mobile-cart-header">
-            <span style="font-weight: 700; font-size: 1.2rem;">🛍️ ตะกร้าสินค้า</span>
-            <button class="close-cart" onclick="closeMobileCart()">✕</button>
-        </div>
-        
-        <div id="mobile-cart-items" class="cart-items" style="max-height: 250px;"></div>
-        
-        <div class="cart-total" style="font-size: 1.2rem; margin: 1rem 0;">
-            <span>รวม</span>
-            <span id="mobile-cart-total-price">0 THB</span>
-        </div>
-
-        <!-- форма для мобильных -->
-        <div class="client-form" style="padding: 1rem;">
-            <div class="form-title">👤 ข้อมูลลูกค้า</div>
-            <div class="form-group">
-                <input type="text" id="mobile-clientName" placeholder="ชื่อ-นามสกุล *">
-            </div>
-            <div class="form-group">
-                <input type="tel" id="mobile-clientPhone" placeholder="เบอร์โทรศัพท์ *">
-            </div>
-            <div class="form-group">
-                <input type="email" id="mobile-clientEmail" placeholder="อีเมล">
-            </div>
-            <div class="form-group">
-                <textarea id="mobile-clientNotes" placeholder="หมายเหตุ"></textarea>
-            </div>
-            <button class="send-crm-btn" onclick="sendMobileToCRM()">💾 ส่งข้อมูลไปยัง CRM</button>
-            <div id="mobile-crmStatus" class="status-message"></div>
-        </div>
-
-        <div style="display: flex; gap: 10px; margin-top: 1rem;">
-            <button class="checkout-btn" onclick="mobileCheckout()" style="flex: 1;">ดำเนินการต่อ</button>
-            <button class="clear-btn" onclick="clearMobileCart()" style="flex: 0.5;">ล้าง</button>
-        </div>
-    </div>
+    <!-- Navigation -->
+    <div class="pc-category-nav" id="pcCategoryNav"></div>
+    <div class="mobile-category-nav" id="mobileCategoryNav"></div>
 
     <div class="main-layout">
-        <!-- каталог товаров -->
         <div class="catalog">
-            <h1>Photo Studio Catalog</h1>
-            <div class="sub">สินค้าครบครันสำหรับช่างภาพและสตูดิโอ</div>
+            <!-- Desktop form -->
+            <div class="desktop-form">
+                <div style="text-align: center; margin-bottom: 1rem;">
+                    <span class="form-warning" data-i18n="warning">Use English Letters Only</span>
+                </div>
+                <div class="form-section">
+                    <h3 data-i18n="parentInfo">Parent Information</h3>
+                    <div class="form-row">
+                        <div class="form-field" id="field-clientName">
+                            <input type="text" id="clientName" data-i18n="clientName" placeholder="Full Name" oninput="checkField(this, 'clientName')">
+                        </div>
+                        <div class="form-field" id="field-clientPhone">
+                            <input type="tel" id="clientPhone" data-i18n="clientPhone" placeholder="Phone Number" oninput="checkField(this, 'clientPhone')">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-field" id="field-clientLine">
+                            <input type="text" id="clientLine" data-i18n="clientLine" placeholder="Line ID" oninput="checkField(this, 'clientLine')">
+                            <span class="optional-badge" data-i18n="optional">optional</span>
+                        </div>
+                        <div class="form-field" id="field-clientEmail">
+                            <input type="email" id="clientEmail" data-i18n="clientEmail" placeholder="Email" oninput="checkField(this, 'clientEmail')">
+                            <span class="optional-badge" data-i18n="optional">optional</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-section">
+                    <h3 data-i18n="studentInfo">Student Information</h3>
+                    <div class="form-row">
+                        <div class="form-field" id="field-studentFirstName">
+                            <input type="text" id="studentFirstName" data-i18n="studentFirstName" placeholder="Student First Name" oninput="checkField(this, 'studentFirstName')">
+                        </div>
+                        <div class="form-field" id="field-studentLastName">
+                            <input type="text" id="studentLastName" data-i18n="studentLastName" placeholder="Student Family Name" oninput="checkField(this, 'studentLastName')">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-field" id="field-birthdate">
+                            <div class="date-input-wrapper" id="birthdate-wrapper">
+                                <input type="text" id="birthdate" data-i18n="birthdate" placeholder="DD/MM/YYYY" oninput="formatDateInput(this); checkField(this, 'birthdate')" maxlength="10">
+                                <span class="date-placeholder">DD/MM/YYYY</span>
+                            </div>
+                        </div>
+                        <div class="form-field" id="field-schoolName">
+                            <input type="text" id="schoolName" data-i18n="schoolName" placeholder="Search school..." oninput="searchSchools(this)" autocomplete="off">
+                            <div id="schoolSuggestions" class="suggestions-dropdown"></div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-field" id="field-classGrade">
+                            <input type="text" id="classGrade" data-i18n="classGrade" placeholder="Class/Grade" oninput="checkField(this, 'classGrade')">
+                        </div>
+                        <div class="form-field" id="field-program">
+                            <input type="text" id="program" data-i18n="program" placeholder="Program (regular/EP)" oninput="checkField(this, 'program')">
+                            <span class="optional-badge" data-i18n="optional">optional</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-            <!-- все категории -->
-            <section id="cat1" class="category">
-                <div class="category-header"><span class="category-title">📸 Package S/M/L</span></div>
-                <div class="product-grid" id="grid-packages"></div>
-            </section>
-            <section id="cat2" class="category">
-                <div class="category-header"><span class="category-title">✨ ACRYLIC</span></div>
-                <div class="product-grid" id="grid-acrylic"></div>
-            </section>
-            <section id="cat3" class="category">
-                <div class="category-header"><span class="category-title">🖤 FLOAT FRAME</span></div>
-                <div class="product-grid" id="grid-float"></div>
-            </section>
-            <section id="cat4" class="category">
-                <div class="category-header"><span class="category-title">🖼️ CANVAS</span></div>
-                <div class="product-grid" id="grid-canvas"></div>
-            </section>
-            <section id="cat5" class="category">
-                <div class="category-header"><span class="category-title">🧩 COLLAGE/ALUM</span></div>
-                <div class="product-grid" id="grid-collage"></div>
-            </section>
-            <section id="cat6" class="category">
-                <div class="category-header"><span class="category-title">📚 PHOTOBOOKS</span></div>
-                <div class="product-grid" id="grid-photobooks"></div>
-            </section>
-            <section id="cat7" class="category">
-                <div class="category-header"><span class="category-title">📆 CALENDAR</span></div>
-                <div class="product-grid" id="grid-calendar"></div>
-            </section>
-            <section id="cat8" class="category">
-                <div class="category-header"><span class="category-title">💧 BOTTLE/MUG</span></div>
-                <div class="product-grid" id="grid-bottle"></div>
-            </section>
-            <section id="cat9" class="category">
-                <div class="category-header"><span class="category-title">🎲 SHAKING HEAD</span></div>
-                <div class="product-grid" id="grid-shaking"></div>
-            </section>
-            <section id="cat10" class="category">
-                <div class="category-header"><span class="category-title">📱 ACCESSORIES</span></div>
-                <div class="product-grid" id="grid-accessory"></div>
-            </section>
-            <section id="cat11" class="category">
-                <div class="category-header"><span class="category-title">🖨️ PRINTS/DIGITAL</span></div>
-                <div class="product-grid" id="grid-prints"></div>
-            </section>
+            <!-- Mobile form -->
+            <div class="mobile-form">
+                <div style="text-align: center; margin-bottom: 1rem;">
+                    <span class="form-warning" data-i18n="warning">Use English Letters Only</span>
+                </div>
+                <h3 data-i18n="parentInfo">Parent Information</h3>
+                <div class="mobile-field" id="mobile-field-clientName">
+                    <input type="text" id="mobile-clientName" data-i18n="clientName" placeholder="Full Name" oninput="checkMobileField(this, 'clientName')">
+                </div>
+                <div class="mobile-field" id="mobile-field-clientPhone">
+                    <input type="tel" id="mobile-clientPhone" data-i18n="clientPhone" placeholder="Phone Number" oninput="checkMobileField(this, 'clientPhone')">
+                </div>
+                <div class="mobile-field" id="mobile-field-clientLine">
+                    <input type="text" id="mobile-clientLine" data-i18n="clientLine" placeholder="Line ID" oninput="checkMobileField(this, 'clientLine')">
+                    <div style="font-size:0.8rem; color:#888;" data-i18n="optional">optional</div>
+                </div>
+                <div class="mobile-field" id="mobile-field-clientEmail">
+                    <input type="email" id="mobile-clientEmail" data-i18n="clientEmail" placeholder="Email" oninput="checkMobileField(this, 'clientEmail')">
+                    <div style="font-size:0.8rem; color:#888;" data-i18n="optional">optional</div>
+                </div>
+                <h3 data-i18n="studentInfo">Student Information</h3>
+                <div class="mobile-field" id="mobile-field-studentFirstName">
+                    <input type="text" id="mobile-studentFirstName" data-i18n="studentFirstName" placeholder="Student First Name" oninput="checkMobileField(this, 'studentFirstName')">
+                </div>
+                <div class="mobile-field" id="mobile-field-studentLastName">
+                    <input type="text" id="mobile-studentLastName" data-i18n="studentLastName" placeholder="Student Family Name" oninput="checkMobileField(this, 'studentLastName')">
+                </div>
+                <div class="mobile-field" id="mobile-field-birthdate">
+                    <div class="date-input-wrapper" id="mobile-birthdate-wrapper">
+                        <input type="text" id="mobile-birthdate" data-i18n="birthdate" placeholder="DD/MM/YYYY" oninput="formatDateInput(this); checkMobileField(this, 'birthdate')" maxlength="10">
+                        <span class="date-placeholder">DD/MM/YYYY</span>
+                    </div>
+                </div>
+                <div class="mobile-field" id="mobile-field-schoolName">
+                    <input type="text" id="mobile-schoolName" data-i18n="schoolName" placeholder="Search school..." oninput="searchSchoolsMobile(this)" autocomplete="off">
+                    <div id="mobile-schoolSuggestions" class="suggestions-dropdown"></div>
+                </div>
+                <div class="mobile-field" id="mobile-field-classGrade">
+                    <input type="text" id="mobile-classGrade" data-i18n="classGrade" placeholder="Class/Grade" oninput="checkMobileField(this, 'classGrade')">
+                </div>
+                <div class="mobile-field" id="mobile-field-program">
+                    <input type="text" id="mobile-program" data-i18n="program" placeholder="Program (regular/EP)" oninput="checkMobileField(this, 'program')">
+                    <div style="font-size:0.8rem; color:#888;" data-i18n="optional">optional</div>
+                </div>
+            </div>
+
+            <div id="crmStatus" class="status-message" style="display:none;"></div>
+
+            <!-- Categories -->
+            <section id="catQ" class="category"><div class="category-header"><span class="category-title">PACKAGE</span></div><div class="product-grid" id="grid-package"></div></section>
+            <section id="catA" class="category"><div class="category-header"><span class="category-title">ACRYLIC</span></div><div class="product-grid" id="grid-acrylic"></div></section>
+            <section id="catW" class="category"><div class="category-header"><span class="category-title">FLOAT FRAME</span></div><div class="product-grid" id="grid-float"></div></section>
+            <section id="catC" class="category"><div class="category-header"><span class="category-title">CANVAS</span></div><div class="product-grid" id="grid-canvas"></div></section>
+            <section id="catF" class="category"><div class="category-header"><span class="category-title">FRAME</span></div><div class="product-grid" id="grid-frame"></div></section>
+            <section id="catB" class="category"><div class="category-header"><span class="category-title">PHOTO BOOK</span></div><div class="product-grid" id="grid-photobook"></div></section>
+            <section id="catK" class="category"><div class="category-header"><span class="category-title">CALENDAR</span></div><div class="product-grid" id="grid-calendar"></div></section>
+            <section id="catD" class="category"><div class="category-header"><span class="category-title">BOTTLE</span></div><div class="product-grid" id="grid-bottle"></div></section>
+            <section id="catS" class="category"><div class="category-header"><span class="category-title">PHOTO GIFTS</span></div><div class="product-grid" id="grid-photogifts"></div></section>
+            <section id="catE" class="category"><div class="category-header"><span class="category-title">ACCESSORIES</span></div><div class="product-grid" id="grid-accessory"></div></section>
+            <section id="catX" class="category"><div class="category-header"><span class="category-title">PHOTO</span></div><div class="product-grid" id="grid-photoX"></div></section>
+
+            <!-- OK Button -->
+            <div class="bottom-ok">
+                <button class="send-crm-btn" id="bottomSendBtn" onclick="sendToCRM()" data-i18n="ok">OK</button>
+            </div>
         </div>
 
-        <!-- корзина для ПК -->
+        <!-- Desktop cart -->
         <div class="cart-panel">
             <div class="cart-header">
-                <span>🛍️ ตะกร้าสินค้า</span>
+                <span data-i18n="cart">Shopping Cart</span>
                 <span class="cart-count" id="cart-count">0</span>
             </div>
-            
-            <div id="cart-items-list" class="cart-items">
-                <div class="empty-cart">ตะกร้าว่างเปล่า</div>
-            </div>
-            
+            <div id="cart-items-list" class="cart-items"><div class="empty-cart" data-i18n="emptyCart">Cart is empty</div></div>
             <div class="cart-total">
-                <span>รวมทั้งสิ้น</span>
+                <span data-i18n="total">Total</span>
                 <span id="cart-total-price">0 THB</span>
             </div>
+            <div id="cart-discount" class="cart-discount" style="display: none;"></div>
+        </div>
+    </div>
 
-            <!-- форма для ПК -->
-            <div class="client-form">
-                <div class="form-title">👤 ข้อมูลลูกค้า</div>
-                <div class="form-group">
-                    <input type="text" id="clientName" placeholder="ชื่อ-นามสกุล *">
-                </div>
-                <div class="form-group">
-                    <input type="tel" id="clientPhone" placeholder="เบอร์โทรศัพท์ *">
-                </div>
-                <div class="form-group">
-                    <input type="email" id="clientEmail" placeholder="อีเมล">
-                </div>
-                <div class="form-group">
-                    <textarea id="clientNotes" placeholder="หมายเหตุ (ขนาด, สี, รายละเอียดเพิ่มเติม)"></textarea>
-                </div>
-                <button class="send-crm-btn" id="sendToCRM">💾 ส่งข้อมูลไปยัง CRM</button>
-                <div id="crmStatus" class="status-message"></div>
-            </div>
-
-            <div class="cart-actions">
-                <button class="checkout-btn" id="checkoutBtn">ดำเนินการต่อ</button>
-                <button class="clear-btn" id="clearCartBtn">ล้างทั้งหมด</button>
-            </div>
+    <!-- Mobile cart -->
+    <div class="overlay" id="overlay" onclick="closeMobileCart()"></div>
+    <button class="mobile-cart-button" id="mobileCartButton" onclick="openMobileCart()">
+        🛒 <span id="mobile-cart-count">0</span> • <span id="mobile-cart-total">0</span> THB
+    </button>
+    <div class="mobile-cart-panel" id="mobileCart">
+        <div class="mobile-cart-header">
+            <span style="font-weight:700; font-size:1.3rem;" data-i18n="cart">Shopping Cart</span>
+            <button class="close-cart" onclick="closeMobileCart()">✕</button>
+        </div>
+        <div id="mobile-cart-items" class="cart-items"></div>
+        <div class="cart-total">
+            <span data-i18n="total">Total</span>
+            <span id="mobile-cart-total-price">0 THB</span>
+        </div>
+        <div id="mobile-cart-discount" class="cart-discount" style="display: none;"></div>
+        <div style="text-align: center; margin-top: 1rem; color: var(--text-muted); font-size: 0.9rem;" data-i18n="cartNote">
+            Press OK button below to submit order
         </div>
     </div>
 
     <script>
-        // ============================================
-        // ПЕРЕКЛЮЧЕНИЕ ТЕМЫ (тайский/английский)
-        // ============================================
-        let currentLang = 'th'; // 'th' или 'en'
+        // ===================== SCHOOL LIST =====================
+        const schoolList = [
+            "ABC International Nursery and Pre-School",
+            "Achara Nursery",
+            "Anuban Phuket School",
+            "Baan Kru Jay International Nursery",
+            "Bambini Preschool & Nursery",
+            "Ban Bang Thao School",
+            "Ban Kalim School",
+            "Ban Kata School",
+            "Ban Kuku School",
+            "Ban Lipon School",
+            "Ban Ma Nik School",
+            "Ban Mai Khao School",
+            "Ban Mak Prok School",
+            "Ban Na Bon School",
+            "Ban Pa Khlok School",
+            "BCIS Phuket International School",
+            "British International School, Phuket (BISP)",
+            "Buds International School Phuket",
+            "Busy Bees Preschool",
+            "Chalong International Kindergarten",
+            "Cherngtalay-Tantiwit Municipality School",
+            "Darasamuth Phuket School",
+            "Dino Daycare Center",
+            "Dowroong Wittaya School",
+            "Finnway International School Phuket",
+            "Greenhouse Phuket Kindergarten",
+            "Growing Minds International Kindergarten",
+            "HeadStart International School (Chaofah City Campus)",
+            "HeadStart International School (Cherngtalay Campus)",
+            "Indigo Kids International Preschool",
+            "International School of Phuket (ISP)",
+            "Kajonkiet Cherngtalay School",
+            "Kajonkiet International School (KIS)",
+            "Kajonkiet Nursery (Pasak Branch)",
+            "Kajonkiet Nursery (Saiyuan Branch)",
+            "Kajonkiet Nursery (Rawai Branch)",
+            "Kajonkiet Pattana School",
+            "Kajonkietsuksa School (Kathu)",
+            "Kinderville International Preschool",
+            "Lighthouse International School Phuket",
+            "Little Lions International Kindergarten",
+            "Montessori House Phuket International School",
+            "Muang Phuket School",
+            "Oak Meadow International School",
+            "Phuket International Kindergarten & School (PIKS)",
+            "Phuket Panyanukul School",
+            "Phuket Thaihua ASEAN Wittaya School",
+            "Phuket Wittayalai School",
+            "PPAO Muang Phuket School (Rawai)",
+            "Prasan Gateway International School",
+            "QSI International School of Phuket",
+            "Rainbow Montessori School",
+            "Ratsada Subdistrict Municipal School",
+            "Ruamrudee International School Phuket (RIS)",
+            "Satree Phuket School",
+            "Satree Phuket School (International Program)",
+            "Shining Stars School",
+            "Srinagarindra The Princess Mother School Phuket",
+            "Sunrays School International Phuket",
+            "Thalang Phranang Sang School",
+            "UWC Thailand International School (UWCT)",
+            "Wat Latthiwanaram School",
+            "Wat Mongkhol Wararam School",
+            "Wittaya Sathid School"
+        ].sort();
 
-        function toggleTheme() {
-            const body = document.body;
-            const themeIcon = document.getElementById('theme-icon');
-            const themeTextTh = document.getElementById('theme-text-th');
-            const themeTextEn = document.getElementById('theme-text-en');
-            
-            if (body.classList.contains('dark-theme')) {
-                body.classList.remove('dark-theme');
-                themeIcon.textContent = '🌙';
-                if (currentLang === 'th') {
-                    themeTextTh.textContent = 'โหมดกลางคืน';
-                    themeTextEn.textContent = 'Dark mode';
-                } else {
-                    themeTextTh.textContent = 'โหมดกลางคืน';
-                    themeTextEn.textContent = 'Dark mode';
-                }
-                localStorage.setItem('theme', 'light');
-            } else {
-                body.classList.add('dark-theme');
-                themeIcon.textContent = '☀️';
-                if (currentLang === 'th') {
-                    themeTextTh.textContent = 'โหมดสว่าง';
-                    themeTextEn.textContent = 'Light mode';
-                } else {
-                    themeTextTh.textContent = 'โหมดสว่าง';
-                    themeTextEn.textContent = 'Light mode';
-                }
-                localStorage.setItem('theme', 'dark');
-            }
-        }
-
-        // Загружаем сохранённую тему
-        const savedTheme = localStorage.getItem('theme');
-        if (savedTheme === 'dark') {
-            document.body.classList.add('dark-theme');
-            document.getElementById('theme-icon').textContent = '☀️';
-            document.getElementById('theme-text-th').textContent = 'โหมดสว่าง';
-            document.getElementById('theme-text-en').textContent = 'Light mode';
-        }
-
-        // Переключение языка темы (опционально)
-        function toggleLang() {
-            const themeTextTh = document.getElementById('theme-text-th');
-            const themeTextEn = document.getElementById('theme-text-en');
-            
-            if (currentLang === 'th') {
-                // Переключаем на английский
-                themeTextTh.style.display = 'none';
-                themeTextEn.style.display = 'inline';
-                currentLang = 'en';
-            } else {
-                // Переключаем на тайский
-                themeTextTh.style.display = 'inline';
-                themeTextEn.style.display = 'none';
-                currentLang = 'th';
-            }
-            
-            // Обновляем текст в зависимости от текущей темы
-            const isDark = document.body.classList.contains('dark-theme');
-            if (isDark) {
-                themeTextTh.textContent = 'โหมดสว่าง';
-                themeTextEn.textContent = 'Light mode';
-            } else {
-                themeTextTh.textContent = 'โหมดกลางคืน';
-                themeTextEn.textContent = 'Dark mode';
-            }
-            
-            localStorage.setItem('lang', currentLang);
-        }
-
-        // Загружаем сохранённый язык
-        const savedLang = localStorage.getItem('lang');
-        if (savedLang === 'en') {
-            toggleLang(); // переключаем на английский
-        }
-
-        // Добавляем кнопку переключения языка (опционально)
-        // Можно добавить в топ-бар рядом с темой
-
-        // ============================================
-        // ДАННЫЕ ТОВАРОВ (полный список)
-        // ============================================
+        // ===================== PRODUCTS ARRAY =====================
         const products = [
-            // Пакеты
-            { id: 'p1', cat: 'pack', name: 'Package S', code: '', desc: 'Total 6 photo\n1 Pose 6x9" Class Serious + Logo\nคลาสซีเรียส + โลโก้\n1 Pose 4x6" Individual + Logo\n4 Pose 4x6" Individual', price: 400, oldPrice: 505 },
-            { id: 'p2', cat: 'pack', name: 'Package M', code: '', desc: 'Total 11 photo\n1 Pose 6x9" Class Serious + Logo\n1 Pose 6x9" Individual + Logo\n8 Pose 4x6" Individual\n1 Pose 6x9" Class Sabai', price: 800, oldPrice: 945 },
-            { id: 'p3', cat: 'pack', name: 'Package L', code: '', desc: 'Total 14 photo\n1 Pose 8x12" Class Serious + Logo\n1 Pose 6x9" Individual + Logo\n10 Pose 4x6" Individual\n1 Pose 6x9" Class Sabai\n1 Pose 6x9" Individual\n10% discount', price: 1300, oldPrice: 1450 },
+            // PACKAGE
+            { 
+                id: 'p1', cat: 'package', sku: 'Q1', 
+                nameTH: 'แพ็คเกจ S', 
+                nameEN: 'Package S', 
+                sizeTH: '6 ท่า',
+                sizeEN: '6 poses',
+                price: 400, 
+                oldPrice: 505,
+                image: 'https://i.postimg.cc/XvyFx6wy/P.jpg',
+                descriptionTH: `รวม 6 รูป\n1 ท่า 6x9 นิ้ว คลาสซีเรียส + โลโก้\n1 ท่า 4x6 นิ้ว รายบุคคล + โลโก้\n4 ท่า 4x6 นิ้ว รายบุคคล`,
+                descriptionEN: `Total 6 photos\n1 pose 6x9 inch Class Serious + Logo\n1 pose 4x6 inch Individual + Logo\n4 poses 4x6 inch Individual`
+            },
+            { 
+                id: 'p2', cat: 'package', sku: 'Q2', 
+                nameTH: 'แพ็คเกจ M', 
+                nameEN: 'Package M', 
+                sizeTH: '11 ท่า',
+                sizeEN: '11 poses',
+                price: 800, 
+                oldPrice: 945,
+                image: 'https://i.postimg.cc/XvyFx6wy/P.jpg',
+                descriptionTH: `รวม 11 รูป\n1 ท่า 6x9 นิ้ว คลาสซีเรียส + โลโก้\n1 ท่า 6x9 นิ้ว รายบุคคล + โลโก้\n8 ท่า 4x6 นิ้ว รายบุคคล\n1 ท่า 6x9 นิ้ว คลาสสบาย`,
+                descriptionEN: `Total 11 photos\n1 pose 6x9 inch Class Serious + Logo\n1 pose 6x9 inch Individual + Logo\n8 poses 4x6 inch Individual\n1 pose 6x9 inch Class Sabai`
+            },
+            { 
+                id: 'p3', cat: 'package', sku: 'Q3', 
+                nameTH: 'แพ็คเกจ L', 
+                nameEN: 'Package L', 
+                sizeTH: '14 ท่า',
+                sizeEN: '14 poses',
+                price: 1300, 
+                oldPrice: 1450,
+                image: 'https://i.postimg.cc/XvyFx6wy/P.jpg',
+                descriptionTH: `รวม 14 รูป\n1 ท่า 8x12 นิ้ว คลาสซีเรียส + โลโก้\n1 ท่า 6x9 นิ้ว รายบุคคล + โลโก้\n10 ท่า 4x6 นิ้ว รายบุคคล\n1 ท่า 6x9 นิ้ว คลาสสบาย\n1 ท่า 6x9 นิ้ว รายบุคคล\nลด 10% สำหรับสินค้าทั้งหมดในแคตตาล็อก`,
+                descriptionEN: `Total 14 photos\n1 pose 8x12 inch Class Serious + Logo\n1 pose 6x9 inch Individual + Logo\n10 poses 4x6 inch Individual\n1 pose 6x9 inch Class Sabai\n1 pose 6x9 inch Individual\n10% discount on all products from the catalog`
+            },
+
+            // ACRYLIC
+            { id: 'a11', cat: 'acrylic', sku: 'A11', nameTH: 'อะคริลิคภาพ คลาส + โลโก้', nameEN: 'ACRYLIC PHOTO class logo', sizeTH: '8x12" • 1 ท่า', sizeEN: '8x12" • 1 pose', price: 890, image: 'https://i.postimg.cc/9FHKCc8c/A11.jpg' },
+            { id: 'a12', cat: 'acrylic', sku: 'A12', nameTH: 'อะคริลิคภาพ', nameEN: 'ACRYLIC PHOTO', sizeTH: '12x12" • 1 ท่า', sizeEN: '12x12" • 1 pose', price: 1100, image: 'https://i.postimg.cc/1Xc3P0YF/A12.jpg' },
+            { id: 'a13', cat: 'acrylic', sku: 'A13', nameTH: 'อะคริลิคภาพ', nameEN: 'ACRYLIC PHOTO', sizeTH: '5x5" • 1 ท่า', sizeEN: '5x5" • 1 pose', price: 350, image: 'https://i.postimg.cc/qvw2gGpj/A13.jpg' },
+            { id: 'a14', cat: 'acrylic', sku: 'A14', nameTH: 'อะคริลิคภาพ คลาส + บุคคล', nameEN: 'ACRYLIC PHOTO class + individual', sizeTH: '12x12" • 2 ท่า', sizeEN: '12x12" • 2 poses', price: 1100, image: 'https://i.postimg.cc/Gh1DQf2y/A14.jpg' },
+
+            // FLOAT FRAME
+            { id: 'w11', cat: 'float', sku: 'W11', nameTH: 'เฟรมลอย', nameEN: 'FLOAT FRAME', sizeTH: '10x10" • 1 ท่า', sizeEN: '10x10" • 1 pose', price: 670, image: 'https://i.postimg.cc/hj2Sdffb/W11.jpg' },
+            { id: 'w12', cat: 'float', sku: 'W12', nameTH: 'เฟรมลอย', nameEN: 'FLOAT FRAME', sizeTH: '12x12" • 1 ท่า', sizeEN: '12x12" • 1 pose', price: 780, image: 'https://i.postimg.cc/jd3J0Y0V/W12.jpg' },
+            { id: 'w13', cat: 'float', sku: 'W13', nameTH: 'เฟรมลอย', nameEN: 'FLOAT FRAME', sizeTH: '16x16" • 1 ท่า', sizeEN: '16x16" • 1 pose', price: 950, image: 'https://i.postimg.cc/3RKqw3H0/W13.jpg' },
+            { id: 'w14', cat: 'float', sku: 'W14', nameTH: 'เฟรมลอย', nameEN: 'FLOAT FRAME', sizeTH: '8x12" • 1 ท่า', sizeEN: '8x12" • 1 pose', price: 650, image: 'https://i.postimg.cc/6QN5skkS/W14.jpg' },
+            { id: 'w15', cat: 'float', sku: 'W15', nameTH: 'เฟรมลอย บุคคล', nameEN: 'FLOAT FRAME individual', sizeTH: '10x15" • 1 ท่า', sizeEN: '10x15" • 1 pose', price: 790, image: 'https://i.postimg.cc/J0gMpv3P/W15.jpg' },
+            { id: 'w16', cat: 'float', sku: 'W16', nameTH: 'เฟรมลอย ออกแบบ', nameEN: 'FLOAT FRAME design', sizeTH: '12x18" • 3 ท่า', sizeEN: '12x18" • 3 poses', price: 850, image: 'https://i.postimg.cc/wTy61xHs/W16.jpg' },
+            { id: 'w17', cat: 'float', sku: 'W17', nameTH: 'เฟรมลอย คลาส', nameEN: 'FLOAT FRAME class', sizeTH: '16x24" • 1 ท่า', sizeEN: '16x24" • 1 pose', price: 1450, image: 'https://i.postimg.cc/bN7qkXwS/W17.jpg' },
+
+            // CANVAS
+            { id: 'c11', cat: 'canvas', sku: 'C11', nameTH: 'แคนวาส', nameEN: 'CANVAS', sizeTH: '12x18" • 1 ท่า', sizeEN: '12x18" • 1 pose', price: 1100, image: 'https://i.postimg.cc/c1jWGqYJ/S11.jpg' },
+            { id: 'c12', cat: 'canvas', sku: 'C12', nameTH: 'แคนวาส', nameEN: 'CANVAS', sizeTH: '16x24" • 1 ท่า', sizeEN: '16x24" • 1 pose', price: 1900, image: 'https://i.postimg.cc/RCnw1Sfd/C12.jpg' },
+            { id: 'c13', cat: 'canvas', sku: 'C13', nameTH: 'แคนวาส', nameEN: 'CANVAS', sizeTH: '20x30" • 1 ท่า', sizeEN: '20x30" • 1 pose', price: 2400, image: 'https://i.postimg.cc/ZRgMLc2y/C13.jpg' },
+            { id: 'c14', cat: 'canvas', sku: 'C14', nameTH: 'แคนวาส', nameEN: 'CANVAS', sizeTH: '16x16" • 1 ท่า', sizeEN: '16x16" • 1 pose', price: 1310, image: 'https://i.postimg.cc/s2MGC2G6/C14.jpg' },
+            { id: 'c15', cat: 'canvas', sku: 'C15', nameTH: 'แคนวาส ออกแบบ', nameEN: 'CANVAS design', sizeTH: '20x20" • 9 ท่า', sizeEN: '20x20" • 9 poses', price: 2100, image: 'https://i.postimg.cc/Wbg19pKv/S15.jpg' },
+
+            // FRAME
+            { id: 'f11', cat: 'frame', sku: 'F11', nameTH: 'กล่องภาพ', nameEN: 'PHOTO BOX', sizeTH: '12x16" • 1 ท่า', sizeEN: '12x16" • 1 pose', price: 1050, image: 'https://i.postimg.cc/k4zpzmZV/F11.jpg' },
+            { id: 'f12', cat: 'frame', sku: 'F12', nameTH: 'ภาพปะติดกรอบอลู', nameEN: 'PHOTO COLLAGE', sizeTH: '8x12" • 2 ท่า', sizeEN: '8x12" • 2 poses', price: 1050, image: 'https://i.postimg.cc/c4qzcdwf/F12.jpg' },
+            { id: 'f13', cat: 'frame', sku: 'F13', nameTH: 'กรอบทอง', nameEN: 'GOLD FRAME', sizeTH: '6x9" • 1 ท่า', sizeEN: '6x9" • 1 pose', price: 490, image: 'https://i.postimg.cc/bwpFKL6g/F13.jpg' },
+            { id: 'f14', cat: 'frame', sku: 'F14', nameTH: 'กรอบทอง', nameEN: 'GOLD FRAME', sizeTH: '4x6" • 1 ท่า', sizeEN: '4x6" • 1 pose', price: 190, image: 'https://i.postimg.cc/25XcLYCM/F14.jpg' },
+            { id: 'f15', cat: 'frame', sku: 'F15', nameTH: 'แม่เหล็ก INSTAX 2 ชิ้น', nameEN: 'MAGNET INSTAX 2 pcs', sizeTH: '3x3.5" • 2 ท่า', sizeEN: '3x3.5" • 2 poses', price: 510, image: 'https://i.postimg.cc/wvCwFky2/F15.jpg' },
+
+            // PHOTO BOOK
+            { id: 'b11', cat: 'photobook', sku: 'B11', nameTH: 'อินสต้าบุ๊ค', nameEN: 'INSTABOOK', sizeTH: '5.5x5.5" • 16 ท่า', sizeEN: '5.5x5.5" • 16 poses', price: 1300, image: 'https://i.postimg.cc/WzmhC230/B11.jpg' },
+            { id: 'b12', cat: 'photobook', sku: 'B12', nameTH: 'มินิบุ๊ค', nameEN: 'MINI BOOK', sizeTH: '6x8" • 14 ท่า', sizeEN: '6x8" • 14 poses', price: 1300, image: 'https://i.postimg.cc/KvN15vCS/B12.jpg' },
+            { 
+                id: 'b13', cat: 'photobook', sku: 'B13', 
+                nameTH: 'หนังสือเรียนชั้นสูง 20 หน้า', 
+                nameEN: 'ELITE SCHOOL BOOK 20 pages',
+                sizeTH: '8x12" • 31 ท่า', 
+                sizeEN: '8x12" • 31 poses',
+                price: 3500, 
+                image: 'https://i.postimg.cc/D0hzqtg7/B13.jpg' 
+            },
+            { id: 'b14', cat: 'photobook', sku: 'B14', nameTH: 'ป๊อปอาร์ตบุ๊ค', nameEN: 'POP ART BOOK', sizeTH: '12x12" • 31 ท่า', sizeEN: '12x12" • 31 poses', price: 4500, image: 'https://i.postimg.cc/t4J4tdhz/B14.jpg' },
+
+            // CALENDAR
+            { id: 'k11', cat: 'calendar', sku: 'K11', nameTH: 'ปฏิทินติดผนัง 13 หน้า', nameEN: 'WALL CALENDAR 13 pages', sizeTH: '30x42cm • 20 ท่า', sizeEN: '30x42cm • 20 poses', price: 710, image: 'https://i.postimg.cc/9fz1hkyb/K11.jpg' },
+            { id: 'k12', cat: 'calendar', sku: 'K12', nameTH: 'ปฏิทินติดผนัง 1 แผ่น', nameEN: 'WALL CALENDAR 1 sheet', sizeTH: '24x36" • 1 ท่า', sizeEN: '24x36" • 1 pose', price: 800, image: 'https://i.postimg.cc/cC7BhGGM/K12.jpg' },
+            { id: 'k13', cat: 'calendar', sku: 'K13', nameTH: 'ปฏิทินตั้งโต๊ะไม้', nameEN: 'DESK CALENDAR FLIP WOODEN', sizeTH: '6x9" • 12 ท่า', sizeEN: '6x9" • 12 poses', price: 1100, image: 'https://i.postimg.cc/MKDYjwDZ/K13.jpg' },
+            { id: 'k14', cat: 'calendar', sku: 'K14', nameTH: 'ปฏิทินตั้งโต๊ะ', nameEN: 'DESK CALENDAR FLIP', sizeTH: '6x8" • 25 ท่า', sizeEN: '6x8" • 25 poses', price: 550, image: 'https://i.postimg.cc/bwVH3R4d/K14.jpg' },
+            { id: 'k15', cat: 'calendar', sku: 'K15', nameTH: 'ปฏิทินกลุ่ม คลาส M', nameEN: 'CALENDAR GROUP CLASS M', sizeTH: '16x24"', sizeEN: '16x24"', price: 600, image: 'https://i.postimg.cc/3JKXh6T5/K15.jpg' },
+            { id: 'k16', cat: 'calendar', sku: 'K16', nameTH: 'ปฏิทินกลุ่ม คลาส XL', nameEN: 'CALENDAR GROUP CLASS XL', sizeTH: '24x36"', sizeEN: '24x36"', price: 800, image: 'https://i.postimg.cc/Sxk44h17/misty-forest-landscape-538547-11239.jpg' },
+
+            // BOTTLE
+            { id: 'd11', cat: 'bottle', sku: 'D11', nameTH: 'แก้วน้ำ โลโก้', nameEN: 'MUG LOGO', sizeTH: '350 ml • 2 ท่า', sizeEN: '350 ml • 2 poses', price: 530, image: 'https://i.postimg.cc/TPW2BRNp/D11.jpg' },
+            { id: 'd12', cat: 'bottle', sku: 'D12', nameTH: 'แก้วน้ำ บุคคล', nameEN: 'MUG INDIVIDUAL', sizeTH: '350 ml • 4 ท่า', sizeEN: '350 ml • 4 poses', price: 530, image: 'https://i.postimg.cc/d3Jq7Gs4/D12.jpg' },
+            { id: 'd13', cat: 'bottle', sku: 'D13', nameTH: 'ขวดน้ำ', nameEN: 'WATER BOTTLE', sizeTH: '600 ml • 8 ท่า', sizeEN: '600 ml • 8 poses', price: 990, image: 'https://i.postimg.cc/HkrT7YgQ/D13.jpg' },
+            { id: 'd14', cat: 'bottle', sku: 'D14', nameTH: 'ขวดน้ำ โลโก้', nameEN: 'WATER BOTTLE LOGO', sizeTH: '500 ml • 2 ท่า', sizeEN: '500 ml • 2 poses', price: 910, image: 'https://i.postimg.cc/pdM3XRXV/D14.jpg' },
+
+            // PHOTO GIFTS
+            { id: 's11', cat: 'photogifts', sku: 'S11', nameTH: 'อะคริลิคสั่นหัวได้ เด็กชาย', nameEN: 'SHAKING HEAD ACRYLIC STAND boy', sizeTH: '10x10 cm • 1 ท่า', sizeEN: '10x10 cm • 1 pose', price: 570, image: 'https://i.postimg.cc/85SFHJpq/S11.jpg' },
+            { id: 's12', cat: 'photogifts', sku: 'S12', nameTH: 'อะคริลิคสั่นหัวได้ เด็กหญิง', nameEN: 'SHAKING HEAD ACRYLIC STAND girl', sizeTH: '10x10 cm • 1 ท่า', sizeEN: '10x10 cm • 1 pose', price: 570, image: 'https://i.postimg.cc/Kj9Rx0PS/S12.jpg' },
+            { id: 's13', cat: 'photogifts', sku: 'S13', nameTH: 'อะคริลิคสั่นหัวได้ ครู + นักเรียน', nameEN: 'SHAKING HEAD ACRYLIC STAND teacher + student', sizeTH: '10x10 cm • 2 ท่า', sizeEN: '10x10 cm • 2 poses', price: 700, image: 'https://i.postimg.cc/yYdDvzKk/S13.jpg' },
+            { id: 's14', cat: 'photogifts', sku: 'S14', nameTH: 'สติ๊กเกอร์ภาพ เกม 40 ดวง', nameEN: 'PHOTO STICKERS GAMES 40 stickers', sizeTH: '11.3x19cm • 10 ท่า', sizeEN: '11.3x19cm • 10 poses', price: 350, image: 'https://i.postimg.cc/t4nYGtYV/S14.jpg' },
+            { id: 's15', cat: 'photogifts', sku: 'S15', nameTH: 'สติ๊กเกอร์ภาพ น่ารัก 40 ดวง', nameEN: 'PHOTO STICKERS CUTE 40 stickers', sizeTH: '11.3x19cm • 10 ท่า', sizeEN: '11.3x19cm • 10 poses', price: 350, image: 'https://i.postimg.cc/vmWTcY7F/S15.jpg' },
+            { id: 's16', cat: 'photogifts', sku: 'S16', nameTH: 'แม่เหล็กภาพ 6 ชิ้น', nameEN: 'PHOTO MAGNETS 6pcs', sizeTH: '6.5x6.5 • 6 ท่า', sizeEN: '6.5x6.5 • 6 poses', price: 300, image: 'https://i.postimg.cc/MHGpP1Ck/S16.jpg' },
+            { id: 's17', cat: 'photogifts', sku: 'S17', nameTH: 'กล่องดนตรี', nameEN: 'MUSIC BOX', sizeTH: '6x14x9 cm • 2 ท่า', sizeEN: '6x14x9 cm • 2 poses', price: 2250, image: 'https://i.postimg.cc/L6w8DYv0/S17.jpg' },
+
+            // ACCESSORIES
+            { id: 'e11', cat: 'accessory', sku: 'E11', nameTH: 'แฟ้ม A4', nameEN: 'FOLDER A4', sizeTH: 'A4 • 9 ท่า', sizeEN: 'A4 • 9 poses', price: 500, image: 'https://i.postimg.cc/yYdHw1kZ/E11.jpg' },
+            { id: 'e12', cat: 'accessory', sku: 'E12', nameTH: 'สมุดปกแข็ง', nameEN: 'NOTEBOOK WITH HARDCOVER', sizeTH: '6x8" • 6 ท่า', sizeEN: '6x8" • 6 poses', price: 770, image: 'https://i.postimg.cc/FzzBnKD4/E12.jpg' },
+            { id: 'e13', cat: 'accessory', sku: 'E13', nameTH: 'สมุดห่วง', nameEN: 'NOTEBOOK RING BINDED', sizeTH: '15.5x20cm • 10 ท่า', sizeEN: '15.5x20cm • 10 poses', price: 600, image: 'https://i.postimg.cc/X7TzQ45g/E13.jpg' },
+            { id: 'e14', cat: 'accessory', sku: 'E14', nameTH: 'พวงกุญแจ อลู', nameEN: 'KEYRING ALUM', sizeTH: '5 cm • 2 ท่า', sizeEN: '5 cm • 2 poses', price: 450, image: 'https://i.postimg.cc/jjh3xf1S/E14.jpg' },
+            { id: 'e15', cat: 'accessory', sku: 'E15', nameTH: 'กระจกถือ', nameEN: 'HAND MIRROR', sizeTH: '7.5cm • 1 ท่า', sizeEN: '7.5cm • 1 pose', price: 170, image: 'https://i.postimg.cc/NGnJjBdB/E15.jpg' },
+            { id: 'e16', cat: 'accessory', sku: 'E16', nameTH: 'หมอนอิงเล็ก 2 ชิ้น', nameEN: 'MINI PILLOW 2 pcs', sizeTH: '7.5x7.5 cm • 4 ท่า', sizeEN: '7.5x7.5 cm • 4 poses', price: 330, image: 'https://i.postimg.cc/Gpbz52mv/E16.jpg' },
+            { id: 'e17', cat: 'accessory', sku: 'E17', nameTH: 'ที่ใส่บัตร HUNTER X', nameEN: 'CARD HOLDER HUNTER X', sizeTH: '6.8x11 cm • 1 ท่า', sizeEN: '6.8x11 cm • 1 pose', price: 310, image: 'https://i.postimg.cc/C1QN5sHc/E17.jpg' },
+            { id: 'e18', cat: 'accessory', sku: 'E18', nameTH: 'ที่ใส่บัตร FLY', nameEN: 'CARD HOLDER FLY', sizeTH: '6.8x11 cm • 1 ท่า', sizeEN: '6.8x11 cm • 1 pose', price: 310, image: 'https://i.postimg.cc/c1KqmDjR/E18.jpg' },
+            { id: 'e19', cat: 'accessory', sku: 'E19', nameTH: 'เคสโทรศัพท์ ด้าน', nameEN: 'PHONE COVER mate', sizeTH: '1 ท่า', sizeEN: '1 pose', price: 550, image: 'https://i.postimg.cc/52SD0DH5/E19.jpg' },
+            { id: 'e20', cat: 'accessory', sku: 'E20', nameTH: 'เคสโทรศัพท์ เงา', nameEN: 'PHONE COVER glossy', sizeTH: '1 ท่า', sizeEN: '1 pose', price: 550, image: 'https://i.postimg.cc/6QHSVRf4/E20.jpg' },
+
+            // PHOTO X
+            { id: 'x11', cat: 'photoX', sku: 'X11', nameTH: 'โปสเตอร์ดีไซน์ 1', nameEN: 'POSTER DESIGN 1', sizeTH: '13x20" • 1 ท่า', sizeEN: '13x20" • 1 pose', price: 410, image: 'https://i.postimg.cc/W4jjYMrj/X11.jpg' },
+            { id: 'x12', cat: 'photoX', sku: 'X12', nameTH: 'โปสเตอร์ดีไซน์ 2', nameEN: 'POSTER DESIGN 2', sizeTH: '20x30" • 1 ท่า', sizeEN: '20x30" • 1 pose', price: 750, image: 'https://i.postimg.cc/dV9tYHwS/H12.jpg' },
+            { 
+                id: 'x13', cat: 'photoX', sku: 'X13', 
+                nameTH: 'ตารางเวลา + สมุดโน้ต', 
+                nameEN: 'timetable + mini',
+                sizeTH: '13x20" + 6x9" • 6+1 ท่า',
+                sizeEN: '13x20" + 6x9" • 6+1 poses',
+                price: 500, 
+                image: 'https://i.postimg.cc/K87hTRWH/H13.jpg' 
+            },
+            { 
+                id: 'x14', cat: 'photoX', sku: 'X14', 
+                nameTH: 'กระเป๋าช้อปปิ้ง + กล่องดินสอ', 
+                nameEN: 'SHOPPER BAG + CASE', 
+                sizeTH: '36x42cm + 12x23cm • 3 ท่า',
+                sizeEN: '36x42cm + 12x23cm • 3 poses',
+                price: 820, 
+                image: 'https://i.postimg.cc/G25WRY4W/H14.jpg' 
+            },
             
-            // Акрил
-            { id: 'a1', cat: 'acrylic', name: 'А13', code: '5x5"', desc: 'ACRYLIC PHOTO class + individual logo\n1 POSE\n350 THB\nคลาสเรียนถ่ายภาพอะคริลิค + โลโก้ส่วนตัว', price: 350 },
-            { id: 'a2', cat: 'acrylic', name: 'А14', code: '12x12"', desc: '2 POSE\n1100 THB\nACRYLIC PHOTO\nภาพถ่ายอะคริลิค', price: 1100 },
-            { id: 'a4', cat: 'acrylic', name: 'А11', code: '8x12"', desc: 'ACRYLIC PHOTO\n1 POSE\nACRYLIC PHOTO class logo\n1100 THB 890 THB', price: 890, oldPrice: 1100 },
-            
-            // Float Frame
-            { id: 'f1', cat: 'float', name: 'W16', code: '12x18"', desc: '3 POSE\n850 THB\nFLOAT FRAME เฟรมลอย', price: 850 },
-            { id: 'f2', cat: 'float', name: 'W12', code: '12x12"', desc: '1 POSE\n780 THB\nFLOAT FRAME เฟรมลอย', price: 780 },
-            { id: 'f3', cat: 'float', name: 'W11', code: '10x10"', desc: '1 POSE\n670 THB\nFLOAT FRAME\nเฟรมลอย', price: 670 },
-            { id: 'f4', cat: 'float', name: 'W14', code: '8x12"', desc: '1 POSE\n650 THB\nFLOAT FRAME เฟรมลอย', price: 650 },
-            { id: 'f5', cat: 'float', name: 'W17', code: '16x24"', desc: '1 POSE\n1450 THB\nFLOAT FRAME class logo', price: 1450 },
-            { id: 'f6', cat: 'float', name: 'W13', code: '16x16"', desc: '1 POSE\n950 THB\nFLOAT FRAME เฟรมลอย', price: 950 },
-            { id: 'f7', cat: 'float', name: 'W15', code: '10x15"', desc: '1 POSE\n790 THB\nFLOAT FRAME individual logo', price: 790 },
-            
-            // Canvas
-            { id: 'c1', cat: 'canvas', name: 'C13', code: '20x30"', desc: '2400 THB\nCANVAS\nผ้าใบ', price: 2400 },
-            { id: 'c3', cat: 'canvas', name: 'C11', code: '12x18"', desc: '1 POSE\n1100 THB\nCANVAS ผ้าใบ', price: 1100 },
-            { id: 'c4', cat: 'canvas', name: 'C12', code: '16x24"', desc: '1 POSE\n1900 THB\nCANVAS ผ้าใบ', price: 1900 },
-            { id: 'c5', cat: 'canvas', name: 'C15', code: '20x20"', desc: '2100 THB\nCANVAS design', price: 2100 },
-            { id: 'c6', cat: 'canvas', name: 'C14', code: '16x16"', desc: '1 POSE\n1310 THB\nCANVAS ผ้าใบ', price: 1310 },
-            
-            // Коллажи
-            { id: 'col1', cat: 'collage', name: 'F12', code: '8x12"', desc: '2 POSE\n1050 THB\nGOLD FRAMES', price: 1050 },
-            { id: 'col2', cat: 'collage', name: 'F13', code: '6x9"', desc: '1 POSE\n490 THB\nGOLD FRAMES', price: 490 },
-            { id: 'col3', cat: 'collage', name: 'F14', code: '4x6"', desc: '1 POSE\n190 THB', price: 190 },
-            { id: 'col4', cat: 'collage', name: 'F11', code: '12x16"', desc: '1050 THB\nPHOTO BOX', price: 1050 },
-            { id: 'col5', cat: 'collage', name: 'F15', code: '3x3.5"', desc: '510 THB\nMAGNET INSTAX 2 psc', price: 510 },
-            
-            // Фотокниги
-            { id: 'pb1', cat: 'photobook', name: 'INSTABOOK', code: 'B11', desc: '16 POSE\n1300 THB\nอินสตาบุ๊ค', price: 1300 },
-            { id: 'pb2', cat: 'photobook', name: 'ELITE SCHOOL', code: 'SE', desc: '20 pages + photoshoot\n3500 THB', price: 3500 },
-            { id: 'pb3', cat: 'photobook', name: 'POP ART', code: 'OSE', desc: '20 pages + photoshoot\n4500 THB', price: 4500 },
-            { id: 'pb4', cat: 'photobook', name: 'MINI BOOK', code: 'B12', desc: '10 pages\n1300 THB', price: 1300 },
-            
-            // Календари
-            { id: 'k1', cat: 'calendar', name: 'WALL CAL 1sh', code: 'K12', desc: '24x36"\n1 POSE\n750 THB', price: 750 },
-            { id: 'k2', cat: 'calendar', name: 'WALL CAL 13p', code: 'K11', desc: '30x42 cm\n20 POSE\n710 THB', price: 710 },
-            { id: 'k3', cat: 'calendar', name: 'DESK FLIP WOOD', code: 'K13', desc: '6x9"\n12 POSE\n1100 THB', price: 1100 },
-            { id: 'k4', cat: 'calendar', name: 'DESK FLIP', code: 'K14', desc: '6x8"\n25 POSE\n550 THB', price: 550 },
-            
-            // Бутылки/Кружки
-            { id: 'b1', cat: 'bottle', name: 'D14', code: '500ml', desc: 'BOTTLE LOGO\n4 POSE\n530 THB', price: 530 },
-            { id: 'b2', cat: 'bottle', name: 'D12', code: '350ml', desc: 'MUG INDIVIDUAL\n2 POSE\n910 THB', price: 910 },
-            { id: 'b3', cat: 'bottle', name: 'D11', code: '350ml', desc: 'MUG LOGO\n2 POSE\n530 THB', price: 530 },
-            { id: 'b4', cat: 'bottle', name: 'D13', code: '600ml', desc: 'BOTTLE\n8 POSE\n990 THB', price: 990 },
-            
-            // Shaking head и стикеры
-            { id: 's1', cat: 'shaking', name: 'S11 boy', code: '10cm', desc: 'SHAKING HEAD boy\n1 POSE\n570 THB', price: 570 },
-            { id: 's2', cat: 'shaking', name: 'S15', code: '11.3x19', desc: 'STICKERS CUTE 40\n350 THB', price: 350 },
-            { id: 's3', cat: 'shaking', name: 'S12 girl', code: '10cm', desc: 'SHAKING HEAD girl\n570 THB', price: 570 },
-            { id: 's4', cat: 'shaking', name: 'S14', code: '11.3x19', desc: 'STICKERS GAMES\n350 THB', price: 350 },
-            { id: 's5', cat: 'shaking', name: 'S16', code: '6.5cm', desc: 'MAGNETS 6psc\n300 THB', price: 300 },
-            { id: 's6', cat: 'shaking', name: 'S13', code: '10cm', desc: 'SHAKING teacher+student\n700 THB', price: 700 },
-            { id: 's7', cat: 'shaking', name: 'S17', code: '6x14x9', desc: 'MUSIC BOX\n2250 THB', price: 2250 },
-            
-            // Аксессуары
-            { id: 'e1', cat: 'accessory', name: 'E15', code: '', desc: 'PHONE COVER\n550 THB', price: 550 },
-            { id: 'e2', cat: 'accessory', name: 'E19', code: '7.5cm', desc: 'HAND MIRROR\n170 THB', price: 170 },
-            { id: 'e3', cat: 'accessory', name: 'E17', code: '6.8x11', desc: 'CARD HOLDER X\n310 THB', price: 310 },
-            { id: 'e4', cat: 'accessory', name: 'E18', code: '6.8x11', desc: 'CARD HOLDER FLY\n310 THB', price: 310 },
-            { id: 'e5', cat: 'accessory', name: 'E16', code: '7.5cm', desc: 'MINI PILLOW 2psc\n330 THB', price: 330 },
-            { id: 'e6', cat: 'accessory', name: 'E14', code: '5cm', desc: 'KEYRING ALUM\n450 THB', price: 450 },
-            { id: 'e7', cat: 'accessory', name: 'E12', code: '15x20', desc: 'FOLDER A4\n770 THB', price: 770 },
-            { id: 'e8', cat: 'accessory', name: 'E11', code: 'A4', desc: 'NOTEBOOK HARCOVER\n500 THB', price: 500 },
-            { id: 'e9', cat: 'accessory', name: 'E13', code: '15.5x20', desc: 'NOTEBOOK RING\n600 THB', price: 600 },
-            
-            // Принты
-            { id: 'pr1', cat: 'prints', name: 'P11', code: '4x6"', desc: 'Photo 65 THB', price: 65 },
-            { id: 'pr2', cat: 'prints', name: 'P12', code: '6x9"', desc: 'Photo 180 THB', price: 180 },
-            { id: 'pr3', cat: 'prints', name: 'P13', code: '8x12"', desc: 'Photo 260 THB', price: 260 },
-            { id: 'pr4', cat: 'prints', name: 'P14', code: '10x15"', desc: 'Photo 300 THB', price: 300 },
-            { id: 'pr5', cat: 'prints', name: 'P15', code: '12x18"', desc: 'Photo 350 THB', price: 350 },
-            { id: 'pr6', cat: 'prints', name: 'P16', code: '13x20"', desc: 'Photo 410 THB', price: 410 },
-            { id: 'pr7', cat: 'prints', name: 'P17', code: '16x24"', desc: 'Photo 600 THB', price: 600 },
-            { id: 'pr8', cat: 'prints', name: 'P18', code: '20x30"', desc: 'Photo 750 THB', price: 750 },
-            { id: 'pr9', cat: 'prints', name: 'J11', code: '', desc: 'DIGITAL FILES\n1600 THB', price: 1600 },
-            { id: 'pr10', cat: 'prints', name: 'X14', code: '36x42', desc: 'SHOPPER BAG+PENCIL\n820 THB', price: 820 },
-            { id: 'pr11', cat: 'prints', name: 'ID11', code: '1-2"', desc: 'ID photo 38psc\n250 THB', price: 250 },
-            { id: 'pr12', cat: 'prints', name: 'X13', code: '13x20"', desc: 'TIMETABLE poster\n410 THB', price: 410 },
-            { id: 'pr13', cat: 'prints', name: 'X11', code: '13x20"', desc: 'POSTER DESIGN 1\n410 THB', price: 410 },
-            { id: 'pr14', cat: 'prints', name: 'X12', code: '20x30"', desc: 'POSTER DESIGN 2\n750 THB', price: 750 }
+            // PRINTS
+            { id: 'p11', cat: 'photoX', sku: 'P11', nameTH: 'ภาพถ่าย 4x6"', nameEN: 'PHOTO 4x6"', sizeTH: '1 ท่า • 4x6"', sizeEN: '1 pose • 4x6"', price: 65, image: 'https://i.postimg.cc/7Y7hBqMp/P11.jpg' },
+            { id: 'p12', cat: 'photoX', sku: 'P12', nameTH: 'ภาพถ่าย 6x9"', nameEN: 'PHOTO 6x9"', sizeTH: '1 ท่า • 6x9"', sizeEN: '1 pose • 6x9"', price: 180, image: 'https://i.postimg.cc/jdQRB2J5/P12.jpg' },
+            { id: 'p13', cat: 'photoX', sku: 'P13', nameTH: 'ภาพถ่าย 8x12"', nameEN: 'PHOTO 8x12"', sizeTH: '1 ท่า • 8x12"', sizeEN: '1 pose • 8x12"', price: 260, image: 'https://i.postimg.cc/RCjKp0wV/P13.jpg' },
+            { id: 'p14', cat: 'photoX', sku: 'P14', nameTH: 'ภาพถ่าย 10x15"', nameEN: 'PHOTO 10x15"', sizeTH: '1 ท่า • 10x15"', sizeEN: '1 pose • 10x15"', price: 300, image: 'https://i.postimg.cc/kGtG0m6w/P14.jpg' },
+            { id: 'p15', cat: 'photoX', sku: 'P15', nameTH: 'ภาพถ่าย 12x18"', nameEN: 'PHOTO 12x18"', sizeTH: '1 ท่า • 12x18"', sizeEN: '1 pose • 12x18"', price: 350, image: 'https://i.postimg.cc/jdXvQp6B/P15.jpg' },
+            { id: 'p16', cat: 'photoX', sku: 'P16', nameTH: 'ภาพถ่าย 13x20"', nameEN: 'PHOTO 13x20"', sizeTH: '1 ท่า • 13x20"', sizeEN: '1 pose • 13x20"', price: 410, image: 'https://i.postimg.cc/4dWTTDdW/P16.jpg' },
+            { id: 'p17', cat: 'photoX', sku: 'P17', nameTH: 'ภาพถ่าย 16x24"', nameEN: 'PHOTO 16x24"', sizeTH: '1 ท่า • 16x24"', sizeEN: '1 pose • 16x24"', price: 600, image: 'https://i.postimg.cc/L5FPTvZ9/P17.jpg' },
+            { id: 'p18', cat: 'photoX', sku: 'P18', nameTH: 'ภาพถ่าย 20x30"', nameEN: 'PHOTO 20x30"', sizeTH: '1 ท่า • 20x30"', sizeEN: '1 pose • 20x30"', price: 750, image: 'https://i.postimg.cc/pd4wPjDn/P18.jpg' }
         ];
 
-        // ============================================
-        // КОРЗИНА
-        // ============================================
-        let cart = JSON.parse(localStorage.getItem('photoCart')) || [];
-
-        // ============================================
-        // ФУНКЦИИ РАБОТЫ С КОРЗИНОЙ
-        // ============================================
-        window.addToCart = function(productId) {
-            const product = products.find(p => p.id === productId);
-            if (!product) return;
-            
-            const existingItem = cart.find(item => item.id === productId);
-            if (existingItem) {
-                existingItem.quantity += 1;
-            } else {
-                cart.push({
-                    id: product.id,
-                    name: product.name,
-                    price: product.price,
-                    code: product.code || '',
-                    quantity: 1
-                });
+        // Product groups with Thai names
+        const productGroups = [
+            { 
+                key: 'group_a12_a13', 
+                skus: ['A12', 'A13'], 
+                nameTH: 'อะคริลิคภาพ',
+                nameEN: 'ACRYLIC PHOTO', 
+                image: 'https://i.postimg.cc/qvw2gGpj/A13.jpg',
+                minPrice: 350,
+                description: '4 sizes · from 350 THB'
+            },
+            { 
+                key: 'group_w11_w12_w13', 
+                skus: ['W11', 'W12', 'W13'], 
+                nameTH: 'เฟรมลอย',
+                nameEN: 'FLOAT FRAME', 
+                image: 'https://i.postimg.cc/hj2Sdffb/W11.jpg',
+                minPrice: 670,
+                description: '4 sizes · from 670 THB'
+            },
+            { 
+                key: 'group_c11_c12_c13_c14', 
+                skus: ['C11', 'C12', 'C13', 'C14'], 
+                nameTH: 'แคนวาส',
+                nameEN: 'CANVAS', 
+                image: 'https://i.postimg.cc/c1jWGqYJ/S11.jpg',
+                minPrice: 1100,
+                description: '4 sizes · from 1100 THB'
+            },
+            { 
+                key: 'group_k15_k16', 
+                skus: ['K15', 'K16'], 
+                nameTH: 'ปฏิทินกลุ่ม',
+                nameEN: 'CALENDAR GROUP', 
+                image: 'https://i.postimg.cc/3JKXh6T5/K15.jpg',
+                minPrice: 600,
+                description: '2 sizes · from 600 THB'
+            },
+            { 
+                key: 'group_p11_p18', 
+                skus: ['P11', 'P12', 'P13', 'P14', 'P15', 'P16', 'P17', 'P18'], 
+                nameTH: 'ภาพพิมพ์',
+                nameEN: 'PHOTO PRINTS', 
+                image: 'https://i.postimg.cc/XvyFx6wy/P.jpg',
+                minPrice: 65,
+                description: '8 sizes · from 65 THB'
             }
-            
-            localStorage.setItem('photoCart', JSON.stringify(cart));
-            renderAll();
-        };
+        ];
 
-        window.updateQuantity = function(productId, change) {
-            const itemIndex = cart.findIndex(item => item.id === productId);
-            if (itemIndex === -1) return;
-            
-            const newQuantity = cart[itemIndex].quantity + change;
-            
-            if (newQuantity <= 0) {
-                cart.splice(itemIndex, 1);
-            } else {
-                cart[itemIndex].quantity = newQuantity;
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+        let currentLang = localStorage.getItem('lang') || 'th';
+
+        // For modal window
+        let currentModalGroup = null;
+        let modalQuantities = {};
+
+        // For school search
+        let selectedSchool = '';
+        let selectedMobileSchool = '';
+
+        const translations = {
+            th: {
+                searchPlaceholder: 'ค้นหาตามรหัสสินค้า (A11, W16, X14...)',
+                searchBtn: 'ค้นหา',
+                items: 'ชิ้น',
+                warning: 'กรุณาใช้ภาษาอังกฤษเท่านั้น',
+                parentInfo: 'ข้อมูลผู้ปกครอง',
+                studentInfo: 'ข้อมูลนักเรียน',
+                clientName: 'ชื่อ-นามสกุล',
+                clientPhone: 'เบอร์โทรศัพท์',
+                clientLine: 'Line ID',
+                clientEmail: 'อีเมล',
+                studentFirstName: 'ชื่อนักเรียน',
+                studentLastName: 'นามสกุลนักเรียน',
+                birthdate: 'วันเกิด',
+                schoolName: 'โรงเรียน',
+                classGrade: 'ชั้น/ห้อง',
+                program: 'โปรแกรม (ธรรมดา/EP)',
+                optional: 'ไม่จำเป็น',
+                ok: 'ตกลง',
+                cart: 'ตะกร้าสินค้า',
+                emptyCart: 'ตะกร้าว่างเปล่า',
+                total: 'รวม',
+                cartNote: 'กดปุ่ม OK ด้านล่างเพื่อส่งคำสั่งซื้อ',
+                notFound: 'ไม่พบสินค้ารหัส',
+                enterCode: 'กรุณากรอกรหัสสินค้า',
+                sending: 'กำลังส่งข้อมูล...',
+                success: 'ข้อมูลถูกส่งไปยัง CRM เรียบร้อย',
+                error: 'เกิดข้อผิดพลาดในการส่งข้อมูล',
+                allFieldsRequired: 'กรุณากรอกข้อมูลให้ครบ',
+                cartEmpty: 'ไม่มีสินค้าในตะกร้า',
+                added: 'เพิ่ม {product} ในตะกร้าแล้ว',
+                selectItems: 'เลือกรายการ',
+                from: 'เริ่มต้น',
+                discount: 'ได้รับส่วนลด 10% (จาก Package L)',
+                sizes: 'ขนาด',
+                poses: 'ท่า',
+                searchSchool: 'ค้นหาโรงเรียน...'
+            },
+            en: {
+                searchPlaceholder: 'Search by code (A11, W16, X14...)',
+                searchBtn: 'Search',
+                items: 'items',
+                warning: 'Use English Letters Only',
+                parentInfo: 'Parent Information',
+                studentInfo: 'Student Information',
+                clientName: 'Full Name',
+                clientPhone: 'Phone Number',
+                clientLine: 'Line ID',
+                clientEmail: 'Email',
+                studentFirstName: 'Student First Name',
+                studentLastName: 'Student Family Name',
+                birthdate: 'Birth Date',
+                schoolName: 'School',
+                classGrade: 'Class/Grade',
+                program: 'Program (regular/EP)',
+                optional: 'optional',
+                ok: 'OK',
+                cart: 'Shopping Cart',
+                emptyCart: 'Cart is empty',
+                total: 'Total',
+                cartNote: 'Press OK button below to submit order',
+                notFound: 'Product not found',
+                enterCode: 'Please enter product code',
+                sending: 'Sending data...',
+                success: 'Data sent to CRM successfully',
+                error: 'Error sending data',
+                allFieldsRequired: 'Please fill all fields',
+                cartEmpty: 'Cart is empty',
+                added: 'Added {product} to cart',
+                selectItems: 'Select items',
+                from: 'from',
+                discount: '10% discount applied (from Package L)',
+                sizes: 'sizes',
+                poses: 'poses',
+                searchSchool: 'Search school...'
             }
-            
-            localStorage.setItem('photoCart', JSON.stringify(cart));
-            renderAll();
         };
 
-        // ============================================
-        // ФУНКЦИИ ДЛЯ МОБИЛЬНОЙ КОРЗИНЫ
-        // ============================================
-        window.openMobileCart = function() {
-            document.getElementById('mobileCart').classList.add('open');
-            document.getElementById('overlay').classList.add('show');
-            updateMobileCart();
-        };
-
-        window.closeMobileCart = function() {
-            document.getElementById('mobileCart').classList.remove('open');
-            document.getElementById('overlay').classList.remove('show');
-        };
-
-        window.mobileCheckout = function() {
-            const name = document.getElementById('mobile-clientName').value.trim();
-            const phone = document.getElementById('mobile-clientPhone').value.trim();
-            
-            if (!name || !phone) {
-                document.getElementById('mobile-crmStatus').innerHTML = '⚠️ กรุณากรอกชื่อและเบอร์โทร';
-                document.getElementById('mobile-crmStatus').className = 'status-message error';
-                return;
+        function formatDateInput(input) {
+            let value = input.value.replace(/\D/g, '');
+            if (value.length > 0) {
+                if (value.length <= 2) {
+                    value = value;
+                } else if (value.length <= 4) {
+                    value = value.slice(0, 2) + '/' + value.slice(2);
+                } else {
+                    value = value.slice(0, 2) + '/' + value.slice(2, 4) + '/' + value.slice(4, 8);
+                }
             }
-            
-            if (cart.length === 0) {
-                document.getElementById('mobile-crmStatus').innerHTML = '⚠️ ไม่มีสินค้าในตะกร้า';
-                document.getElementById('mobile-crmStatus').className = 'status-message error';
-                return;
+            input.value = value;
+            const wrapper = input.closest('.date-input-wrapper');
+            if (wrapper) {
+                if (value.length > 0) {
+                    wrapper.classList.add('filled');
+                } else {
+                    wrapper.classList.remove('filled');
+                }
             }
-            
-            sendToCRM('mobile');
-        };
-
-        window.sendMobileToCRM = function() {
-            sendToCRM('mobile');
-        };
-
-        window.clearMobileCart = function() {
-            if (confirm('ล้างสินค้าทั้งหมดในตะกร้า?')) {
-                cart = [];
-                localStorage.setItem('photoCart', JSON.stringify(cart));
-                renderAll();
-                updateMobileCart();
-            }
-        };
-
-        function updateMobileCart() {
-            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
-            const totalPrice = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-            
-            document.getElementById('mobile-cart-count').innerText = totalItems;
-            document.getElementById('mobile-cart-total').innerText = totalPrice;
-            
-            let itemsHtml = '';
-            if (cart.length === 0) {
-                itemsHtml = '<div class="empty-cart">ตะกร้าว่างเปล่า</div>';
-            } else {
-                cart.forEach(item => {
-                    itemsHtml += `
-                        <div class="cart-item">
-                            <div class="cart-item-info">
-                                <div class="cart-item-name">${item.name}</div>
-                                <div class="cart-item-price">${item.price} THB</div>
-                            </div>
-                            <div class="cart-item-controls">
-                                <button onclick="updateQuantity('${item.id}', -1)">−</button>
-                                <span>${item.quantity}</span>
-                                <button onclick="updateQuantity('${item.id}', 1)">+</button>
-                            </div>
-                        </div>
-                    `;
-                });
-            }
-            document.getElementById('mobile-cart-items').innerHTML = itemsHtml;
-            document.getElementById('mobile-cart-total-price').innerText = totalPrice + ' THB';
         }
 
-        // ============================================
-        // ОТПРАВКА В CRM
-        // ============================================
-        function sendToCRM(device) {
-            let name, phone, email, notes, statusDiv;
+        // School search functions
+        function searchSchools(input) {
+            const searchTerm = input.value.toLowerCase();
+            const suggestionsDiv = document.getElementById('schoolSuggestions');
             
-            if (device === 'desktop') {
-                name = document.getElementById('clientName').value.trim();
-                phone = document.getElementById('clientPhone').value.trim();
-                email = document.getElementById('clientEmail').value.trim();
-                notes = document.getElementById('clientNotes').value.trim();
-                statusDiv = document.getElementById('crmStatus');
-            } else {
-                name = document.getElementById('mobile-clientName').value.trim();
-                phone = document.getElementById('mobile-clientPhone').value.trim();
-                email = document.getElementById('mobile-clientEmail').value.trim();
-                notes = document.getElementById('mobile-clientNotes').value.trim();
-                statusDiv = document.getElementById('mobile-crmStatus');
+            if (searchTerm.length < 1) {
+                suggestionsDiv.style.display = 'none';
+                return;
             }
 
-            const orderData = {
-                client: { name, phone, email, notes },
-                cart: cart.map(item => ({
-                    id: item.id,
-                    name: item.name,
-                    price: item.price,
-                    quantity: item.quantity
-                })),
-                total: cart.reduce((sum, item) => sum + (item.price * item.quantity), 0),
-                timestamp: new Date().toISOString(),
-                source: device === 'desktop' ? 'PC' : 'Mobile'
-            };
+            const filteredSchools = schoolList.filter(school => 
+                school.toLowerCase().includes(searchTerm)
+            ).slice(0, 10);
 
-            statusDiv.innerHTML = '⏳ กำลังส่งข้อมูล...';
-            statusDiv.className = 'status-message';
+            if (filteredSchools.length === 0) {
+                suggestionsDiv.style.display = 'none';
+                return;
+            }
+
+            let suggestionsHtml = '';
+            filteredSchools.forEach(school => {
+                suggestionsHtml += `<div class="suggestion-item" onclick="selectSchool('${school.replace(/'/g, "\\'")}')">${school}</div>`;
+            });
+
+            suggestionsDiv.innerHTML = suggestionsHtml;
+            suggestionsDiv.style.display = 'block';
+        }
+
+        function searchSchoolsMobile(input) {
+            const searchTerm = input.value.toLowerCase();
+            const suggestionsDiv = document.getElementById('mobile-schoolSuggestions');
             
-            // 🔴 ЗАМЕНИ ЭТОТ URL НА СВОЙ АДРЕС CRM
-            const CRM_API_URL = 'https://your-crm.com/api/orders';
-            
-            fetch(CRM_API_URL, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(orderData)
-            })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error(`HTTP ${response.status}`);
+            if (searchTerm.length < 1) {
+                suggestionsDiv.style.display = 'none';
+                return;
+            }
+
+            const filteredSchools = schoolList.filter(school => 
+                school.toLowerCase().includes(searchTerm)
+            ).slice(0, 10);
+
+            if (filteredSchools.length === 0) {
+                suggestionsDiv.style.display = 'none';
+                return;
+            }
+
+            let suggestionsHtml = '';
+            filteredSchools.forEach(school => {
+                suggestionsHtml += `<div class="suggestion-item" onclick="selectMobileSchool('${school.replace(/'/g, "\\'")}')">${school}</div>`;
+            });
+
+            suggestionsDiv.innerHTML = suggestionsHtml;
+            suggestionsDiv.style.display = 'block';
+        }
+
+        function selectSchool(school) {
+            document.getElementById('schoolName').value = school;
+            document.getElementById('schoolSuggestions').style.display = 'none';
+            checkField(document.getElementById('schoolName'), 'schoolName');
+        }
+
+        function selectMobileSchool(school) {
+            document.getElementById('mobile-schoolName').value = school;
+            document.getElementById('mobile-schoolSuggestions').style.display = 'none';
+            checkMobileField(document.getElementById('mobile-schoolName'), 'schoolName');
+        }
+
+        // Close suggestions when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('#field-schoolName') && !e.target.closest('#schoolSuggestions')) {
+                const suggestions = document.getElementById('schoolSuggestions');
+                if (suggestions) suggestions.style.display = 'none';
+            }
+            if (!e.target.closest('#mobile-field-schoolName') && !e.target.closest('#mobile-schoolSuggestions')) {
+                const suggestions = document.getElementById('mobile-schoolSuggestions');
+                if (suggestions) suggestions.style.display = 'none';
+            }
+        });
+
+        function applyLanguage() {
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (translations[currentLang][key]) {
+                    if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
+                        el.placeholder = translations[currentLang][key];
+                    } else {
+                        el.textContent = translations[currentLang][key];
+                    }
                 }
-                return response.json().catch(() => ({}));
-            })
-            .then(data => {
-                statusDiv.innerHTML = '✅ ข้อมูลถูกส่งไปยัง CRM เรียบร้อย';
-                statusDiv.className = 'status-message success';
+            });
+            
+            const modalAddBtn = document.getElementById('modalAddBtn');
+            if (modalAddBtn) {
+                modalAddBtn.textContent = currentLang === 'th' ? 'เพิ่มที่เลือก' : 'Add selected';
+            }
+            
+            document.getElementById('lang-icon').textContent = currentLang === 'th' ? '🇹🇭' : '🇬🇧';
+            document.getElementById('lang-text').textContent = currentLang === 'th' ? 'TH' : 'EN';
+            
+            document.querySelectorAll('.date-placeholder').forEach(el => {
+                el.textContent = currentLang === 'th' ? 'วว/ดด/ปปปป' : 'DD/MM/YYYY';
+            });
+            
+            // Update school search placeholder
+            const schoolInputs = document.querySelectorAll('#schoolName, #mobile-schoolName');
+            schoolInputs.forEach(input => {
+                if (input) input.placeholder = translations[currentLang].searchSchool;
+            });
+            
+            renderProducts();
+            updateCartUI();
+        }
+
+        document.getElementById('langToggle').addEventListener('click', function() {
+            currentLang = currentLang === 'th' ? 'en' : 'th';
+            localStorage.setItem('lang', currentLang);
+            applyLanguage();
+        });
+
+        function checkField(input, fieldId) {
+            const parent = document.getElementById('field-' + fieldId);
+            if (input.value.trim() !== '') parent.classList.add('filled');
+            else parent.classList.remove('filled');
+        }
+
+        function checkMobileField(input, fieldId) {
+            const parent = document.getElementById('mobile-field-' + fieldId);
+            if (input.value.trim() !== '') parent.classList.add('filled');
+            else parent.classList.remove('filled');
+        }
+
+        function getCartQuantityBySku(sku) {
+            const item = cart.find(i => i.sku === sku);
+            return item ? item.quantity : 0;
+        }
+
+        function updateCartItemQuantity(sku, delta) {
+            const index = cart.findIndex(item => item.sku === sku);
+            if (index !== -1) {
+                const newQty = cart[index].quantity + delta;
+                if (newQty <= 0) cart.splice(index, 1);
+                else cart[index].quantity = newQty;
+            } else {
+                const prod = products.find(p => p.sku === sku);
+                if (prod) cart.push({ id: prod.id, sku: prod.sku, name: prod.nameEN || prod.name, price: prod.price, quantity: 1 });
+            }
+            localStorage.setItem('cart', JSON.stringify(cart));
+            updateCartUI();
+            renderProducts();
+        }
+
+        function hasQ3InCart() {
+            return cart.some(item => item.sku === 'Q3');
+        }
+
+        // Функция для получения цены со скидкой ТОЛЬКО для отображения в корзине
+        function getCartItemPriceWithDiscount(item) {
+            // Скидка не применяется к самому Q3
+            if (item.sku === 'Q3') return item.price;
+            
+            if (hasQ3InCart()) {
+                return Math.round(item.price * 0.9);
+            }
+            return item.price;
+        }
+
+        // Функция для расчета общей суммы корзины со скидкой
+        function getCartTotalWithDiscount() {
+            if (!hasQ3InCart()) return cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            
+            return cart.reduce((sum, item) => {
+                // Q3 без скидки, остальные со скидкой
+                if (item.sku === 'Q3') {
+                    return sum + (item.price * item.quantity);
+                } else {
+                    return sum + (Math.round(item.price * 0.9) * item.quantity);
+                }
+            }, 0);
+        }
+
+        window.openModal = function(groupKey) {
+            const group = productGroups.find(g => g.key === groupKey);
+            if (!group) return;
+            currentModalGroup = group;
+            modalQuantities = {};
+            group.skus.forEach(sku => {
+                modalQuantities[sku] = getCartQuantityBySku(sku);
+            });
+            updateModalContent();
+            document.getElementById('productModal').classList.add('show');
+            document.body.style.overflow = 'hidden';
+        };
+
+        window.closeModal = function() {
+            document.getElementById('productModal').classList.remove('show');
+            document.body.style.overflow = '';
+            currentModalGroup = null;
+        };
+
+        window.updateModalQuantity = function(sku, delta) {
+            if (!modalQuantities.hasOwnProperty(sku)) return;
+            const newQty = (modalQuantities[sku] || 0) + delta;
+            if (newQty >= 0) {
+                modalQuantities[sku] = newQty;
+            }
+            updateModalContent();
+        };
+
+        function updateModalContent() {
+            if (!currentModalGroup) return;
+            const modalItems = document.getElementById('modalItems');
+            const modalTitle = document.getElementById('modalTitle');
+            const groupName = currentLang === 'th' ? (currentModalGroup.nameTH || currentModalGroup.nameEN) : (currentModalGroup.nameEN || currentModalGroup.nameTH);
+            modalTitle.textContent = groupName + ' - ' + translations[currentLang].selectItems;
+            const groupProducts = products.filter(p => currentModalGroup.skus.includes(p.sku))
+                                          .sort((a, b) => a.price - b.price);
+            let html = '';
+            let total = 0;
+            groupProducts.forEach(prod => {
+                const qty = modalQuantities[prod.sku] || 0;
+                // В модальном окне показываем оригинальные цены
+                total += prod.price * qty;
+                const sizeDisplay = currentLang === 'th' ? (prod.sizeTH || prod.size) : (prod.sizeEN || prod.size);
+                html += `
+                    <div class="modal-item">
+                        <div class="modal-item-info">
+                            <span class="modal-item-sku">${prod.sku}</span>
+                            <span class="modal-item-desc">${sizeDisplay || ''}</span>
+                        </div>
+                        <span class="modal-item-price">${prod.price} THB</span>
+                        <div class="modal-item-controls">
+                            <button onclick="updateModalQuantity('${prod.sku}', -1)" ${qty === 0 ? 'disabled' : ''}>−</button>
+                            <span>${qty}</span>
+                            <button onclick="updateModalQuantity('${prod.sku}', 1)">+</button>
+                        </div>
+                    </div>
+                `;
+            });
+            modalItems.innerHTML = html;
+            document.getElementById('modalTotal').textContent = total + ' THB';
+        }
+
+        window.addModalItemsToCart = function() {
+            if (!currentModalGroup) return;
+            currentModalGroup.skus.forEach(sku => {
+                const modalQty = modalQuantities[sku] || 0;
+                const cartQty = getCartQuantityBySku(sku);
+                if (modalQty > cartQty) {
+                    const diff = modalQty - cartQty;
+                    for (let i = 0; i < diff; i++) {
+                        updateCartItemQuantity(sku, 1);
+                    }
+                } else if (modalQty < cartQty) {
+                    const diff = cartQty - modalQty;
+                    for (let i = 0; i < diff; i++) {
+                        updateCartItemQuantity(sku, -1);
+                    }
+                }
+            });
+            closeModal();
+            showToast('✅ ' + translations[currentLang].added.replace('{product}', currentModalGroup.nameEN || currentModalGroup.nameTH));
+        };
+
+        function renderProducts() {
+            const categoryMap = {
+                'grid-package': 'package', 'grid-acrylic': 'acrylic', 'grid-float': 'float',
+                'grid-canvas': 'canvas', 'grid-frame': 'frame', 'grid-photobook': 'photobook',
+                'grid-calendar': 'calendar', 'grid-bottle': 'bottle', 'grid-photogifts': 'photogifts',
+                'grid-accessory': 'accessory', 'grid-photoX': 'photoX'
+            };
+            
+            for (let [gridId, cat] of Object.entries(categoryMap)) {
+                const grid = document.getElementById(gridId);
+                if (!grid) continue;
                 
-                saveOrderToHistory(orderData);
+                let items = products.filter(p => p.cat === cat);
+                const groupedSkus = productGroups.flatMap(g => g.skus);
+                items = items.filter(p => !groupedSkus.includes(p.sku));
+                
+                let html = '';
+                
+                productGroups.forEach(group => {
+                    const groupProducts = products.filter(p => group.skus.includes(p.sku));
+                    if (groupProducts.length === 0) return;
+                    if (groupProducts[0].cat !== cat) return;
+                    
+                    const totalInCart = group.skus.reduce((sum, sku) => sum + getCartQuantityBySku(sku), 0);
+                    // В карточке товара показываем оригинальную цену
+                    const groupName = currentLang === 'th' ? (group.nameTH || group.nameEN) : (group.nameEN || group.nameTH);
+                    
+                    html += `<div class="product-card group-card" id="card-${group.key}" onclick="openModal('${group.key}')">
+                        <div class="product-image"><img src="${group.image}" alt="${group.name}" onerror="this.src='https://via.placeholder.com/300?text=Image'"></div>
+                        <div class="product-header"><span class="product-sku">${group.skus.join('/')}</span></div>
+                        <div class="product-title">${groupName}</div>
+                        <div class="product-specs">
+                            ${group.skus.length} ${translations[currentLang].sizes} · ${translations[currentLang].from} ${group.minPrice} THB
+                        </div>
+                        <div class="price-area">
+                            <div class="price-wrapper">
+                                <span class="price">${group.minPrice} THB</span>
+                            </div>
+                            ${totalInCart > 0 ? 
+                                `<span class="in-cart-badge">${totalInCart}</span>` : 
+                                `<button class="add-to-cart-btn" onclick="event.stopPropagation(); openModal('${group.key}')">+</button>`
+                            }
+                        </div>
+                    </div>`;
+                });
+                
+                items.forEach(prod => {
+                    const qty = getCartQuantityBySku(prod.sku);
+                    // В карточке товара показываем оригинальную цену
+                    
+                    let displayName = currentLang === 'th' ? (prod.nameTH || prod.name) : (prod.nameEN || prod.name);
+                    let sizeDisplay = currentLang === 'th' ? (prod.sizeTH || prod.size) : (prod.sizeEN || prod.size);
+                    
+                    let priceHtml = `<span class="price">${prod.price} THB</span>`;
+                    if (prod.oldPrice) {
+                        priceHtml = `<span class="old-price">${prod.oldPrice} THB</span> <span class="price">${prod.price} THB</span>`;
+                    }
+                    
+                    let descHtml = '';
+                    if (prod.cat === 'package' && prod.descriptionTH && prod.descriptionEN) {
+                        const desc = currentLang === 'th' ? prod.descriptionTH : prod.descriptionEN;
+                        descHtml = `<div class="package-description">${desc.replace(/\n/g, '<br>')}</div>`;
+                    } else {
+                        descHtml = `<div class="product-specs">${sizeDisplay || ''}</div>`;
+                    }
+                    
+                    let btnHtml = qty > 0 ? 
+                        `<span class="in-cart-badge">${qty}</span>` : 
+                        `<button class="add-to-cart-btn" onclick="event.stopPropagation(); addToCart('${prod.id}')">+</button>`;
+                    
+                    html += `<div class="product-card" id="card-${prod.id}">
+                        <div class="product-image" onclick="window.open('${prod.image}', '_blank')"><img src="${prod.image}" alt="${prod.sku}" onerror="this.src='https://via.placeholder.com/300?text=Image'"></div>
+                        <div class="product-header"><span class="product-sku">${prod.sku}</span></div>
+                        <div class="product-title">${displayName}</div>
+                        ${descHtml}
+                        <div class="price-area">
+                            <div class="price-wrapper">${priceHtml}</div>
+                            ${btnHtml}
+                        </div>
+                    </div>`;
+                });
+                
+                grid.innerHTML = html;
+            }
+            
+            const printsGrid = document.getElementById('grid-prints');
+            if (printsGrid) {
+                printsGrid.innerHTML = '';
+            }
+        }
+
+        function addToCart(id) {
+            const prod = products.find(p => p.id === id);
+            if (!prod) return;
+            const existing = cart.find(item => item.id === id);
+            if (existing) existing.quantity++;
+            else cart.push({ id: prod.id, sku: prod.sku, name: prod.nameEN || prod.name, price: prod.price, quantity: 1 });
+            localStorage.setItem('cart', JSON.stringify(cart));
+            updateCartUI();
+            renderProducts();
+            const productName = currentLang === 'th' ? (prod.nameTH || prod.nameEN) : (prod.nameEN || prod.nameTH);
+            showToast((translations[currentLang].added || 'Added {product}').replace('{product}', productName));
+        }
+
+        function updateQuantity(id, delta) {
+            const index = cart.findIndex(item => item.id === id);
+            if (index === -1) return;
+            cart[index].quantity += delta;
+            if (cart[index].quantity <= 0) cart.splice(index, 1);
+            localStorage.setItem('cart', JSON.stringify(cart));
+            updateCartUI();
+            renderProducts();
+        }
+
+        function updateCartUI() {
+            const hasDiscount = hasQ3InCart();
+            const totalPrice = getCartTotalWithDiscount();
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            
+            document.getElementById('total-items').textContent = totalItems;
+            document.getElementById('total-amount').textContent = totalPrice + ' THB';
+            document.getElementById('cart-count').textContent = totalItems;
+            document.getElementById('mobile-cart-count').textContent = totalItems;
+            document.getElementById('mobile-cart-total').textContent = totalPrice;
+
+            let cartHtml = cart.length === 0 ? 
+                '<div class="empty-cart">' + translations[currentLang].emptyCart + '</div>' : 
+                cart.map(item => {
+                    const priceWithDiscount = getCartItemPriceWithDiscount(item);
+                    const prod = products.find(p => p.sku === item.sku);
+                    const itemName = currentLang === 'th' ? (prod?.nameTH || prod?.nameEN || item.name) : (prod?.nameEN || prod?.nameTH || item.name);
+                    
+                    // Показываем оригинальную цену и цену со скидкой, если применимо
+                    let priceDisplay = '';
+                    if (hasDiscount && item.sku !== 'Q3') {
+                        priceDisplay = `<span class="old-price">${item.price} THB</span> <span class="price">${priceWithDiscount} THB</span>`;
+                    } else {
+                        priceDisplay = `<span class="price">${item.price} THB</span>`;
+                    }
+                    
+                    return `<div class="cart-item">
+                        <div><div class="cart-item-name"><span class="item-sku">${item.sku}</span> ${itemName}</div>
+                        <div class="cart-item-price">${priceDisplay}</div></div>
+                        <div class="cart-item-controls">
+                            <button onclick="updateQuantity('${item.id}', -1)">−</button>
+                            <span>${item.quantity}</span>
+                            <button onclick="updateQuantity('${item.id}', 1)">+</button>
+                        </div>
+                    </div>`;
+                }).join('');
+            
+            document.getElementById('cart-items-list').innerHTML = cartHtml;
+            document.getElementById('mobile-cart-items').innerHTML = cartHtml;
+            document.getElementById('cart-total-price').textContent = totalPrice + ' THB';
+            document.getElementById('mobile-cart-total-price').textContent = totalPrice + ' THB';
+            
+            const discountDiv = document.getElementById('cart-discount');
+            const mobileDiscountDiv = document.getElementById('mobile-cart-discount');
+            
+            if (hasDiscount) {
+                discountDiv.style.display = 'inline-block';
+                discountDiv.textContent = '✨ ' + translations[currentLang].discount;
+                mobileDiscountDiv.style.display = 'inline-block';
+                mobileDiscountDiv.textContent = '✨ ' + translations[currentLang].discount;
+            } else {
+                discountDiv.style.display = 'none';
+                mobileDiscountDiv.style.display = 'none';
+            }
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById('toastMessage');
+            toast.textContent = msg;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2000);
+        }
+
+        function initNavigation() {
+            const navItems = [
+                'PACKAGE','ACRYLIC','FLOAT FRAME','CANVAS','FRAME','PHOTO BOOK',
+                'CALENDAR','BOTTLE','PHOTO GIFTS','ACCESSORIES','PHOTO'
+            ];
+            const ids = ['catQ','catA','catW','catC','catF','catB','catK','catD','catS','catE','catX'];
+            
+            let pcNav = '', mobileNav = '';
+            navItems.forEach((label, i) => {
+                pcNav += `<button class="nav-btn" onclick="document.getElementById('${ids[i]}').scrollIntoView({behavior:'smooth'})">${label}</button>`;
+                mobileNav += `<a class="cat-link" href="#${ids[i]}">${label}</a>`;
+            });
+            document.getElementById('pcCategoryNav').innerHTML = pcNav;
+            document.getElementById('mobileCategoryNav').innerHTML = mobileNav;
+        }
+
+        window.openMobileCart = function() { 
+            document.getElementById('mobileCart').classList.add('open'); 
+            document.getElementById('overlay').classList.add('show'); 
+            document.body.style.overflow = 'hidden'; 
+        };
+
+        window.closeMobileCart = function() { 
+            document.getElementById('mobileCart').classList.remove('open'); 
+            document.getElementById('overlay').classList.remove('show'); 
+            document.body.style.overflow = ''; 
+        };
+
+        window.searchProduct = function() {
+            const query = document.getElementById('searchInput').value.trim().toUpperCase();
+            if (!query) { alert(translations[currentLang].enterCode); return; }
+            const prod = products.find(p => p.sku === query);
+            if (!prod) { alert(translations[currentLang].notFound + ' ' + query); return; }
+            const group = productGroups.find(g => g.skus.includes(prod.sku));
+            if (group) document.getElementById('card-' + group.key).scrollIntoView({behavior: 'smooth'});
+            else document.getElementById('card-' + prod.id).scrollIntoView({behavior: 'smooth'});
+        };
+
+        window.sendToCRM = async function() {
+            const isMobile = window.innerWidth <= 900;
+            
+            const name = isMobile ? document.getElementById('mobile-clientName')?.value.trim() : document.getElementById('clientName')?.value.trim();
+            const phone = isMobile ? document.getElementById('mobile-clientPhone')?.value.trim() : document.getElementById('clientPhone')?.value.trim();
+            const lineId = isMobile ? document.getElementById('mobile-clientLine')?.value.trim() : document.getElementById('clientLine')?.value.trim();
+            const email = isMobile ? document.getElementById('mobile-clientEmail')?.value.trim() : document.getElementById('clientEmail')?.value.trim();
+            const studentFirst = isMobile ? document.getElementById('mobile-studentFirstName')?.value.trim() : document.getElementById('studentFirstName')?.value.trim();
+            const studentLast = isMobile ? document.getElementById('mobile-studentLastName')?.value.trim() : document.getElementById('studentLastName')?.value.trim();
+            
+            let birthdate = isMobile ? document.getElementById('mobile-birthdate')?.value : document.getElementById('birthdate')?.value;
+            if (birthdate && birthdate.includes('/')) {
+                const parts = birthdate.split('/');
+                if (parts.length === 3) {
+                    birthdate = `${parts[2]}-${parts[1]}-${parts[0]}`;
+                }
+            }
+            
+            const school = isMobile ? document.getElementById('mobile-schoolName')?.value : document.getElementById('schoolName')?.value;
+            const classGrade = isMobile ? document.getElementById('mobile-classGrade')?.value.trim() : document.getElementById('classGrade')?.value.trim();
+            const program = isMobile ? document.getElementById('mobile-program')?.value.trim() : document.getElementById('program')?.value.trim();
+            
+            const statusDiv = document.getElementById('crmStatus');
+            statusDiv.style.display = 'block';
+            
+            if (!name || !phone || !studentFirst || !studentLast || !birthdate || !school || !classGrade) {
+                statusDiv.className = 'status-message status-error';
+                statusDiv.textContent = translations[currentLang].allFieldsRequired;
+                return;
+            }
+            
+            if (cart.length === 0) {
+                statusDiv.className = 'status-message status-error';
+                statusDiv.textContent = translations[currentLang].cartEmpty;
+                return;
+            }
+            
+            const hasDiscount = hasQ3InCart();
+            
+            // Подготавливаем товары для CRM с правильными ценами
+            const itemsForCRM = cart.map(item => {
+                // Для Q3 цена без скидки, для остальных со скидкой если применимо
+                let finalPrice = item.price;
+                if (hasDiscount && item.sku !== 'Q3') {
+                    finalPrice = Math.round(item.price * 0.9);
+                }
+                
+                const prod = products.find(p => p.sku === item.sku);
+                const displayName = prod?.nameEN || prod?.name || item.name;
+                
+                return {
+                    sku: item.sku,
+                    name: displayName,
+                    original_price: item.price,
+                    price: finalPrice,
+                    quantity: item.quantity,
+                    total: finalPrice * item.quantity
+                };
+            });
+            
+            const totalAmount = itemsForCRM.reduce((sum, item) => sum + item.total, 0);
+            
+            const orderData = {
+                customer: { 
+                    name, 
+                    phone, 
+                    line_id: lineId || null,
+                    email: email || null,
+                    student_first_name: studentFirst, 
+                    student_last_name: studentLast,
+                    birthdate: birthdate,
+                    school: school,
+                    class_grade: classGrade, 
+                    program: program || null 
+                },
+                order: {
+                    items: itemsForCRM,
+                    total_amount: totalAmount,
+                    total_items: cart.reduce((sum, item) => sum + item.quantity, 0),
+                    discount_applied: hasDiscount ? 10 : 0
+                },
+                metadata: { 
+                    source: 'website', 
+                    language: currentLang, 
+                    timestamp: new Date().toISOString() 
+                }
+            };
+            
+            statusDiv.className = 'status-message';
+            statusDiv.textContent = translations[currentLang].sending;
+            document.getElementById('bottomSendBtn').disabled = true;
+            
+            try {
+                const response = await fetch('/api/crm', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(orderData)
+                });
+                
+                if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+                
+                const result = await response.json();
+                
+                statusDiv.className = 'status-message status-success';
+                statusDiv.textContent = translations[currentLang].success;
                 
                 cart = [];
-                localStorage.setItem('photoCart', JSON.stringify(cart));
-                renderAll();
+                localStorage.setItem('cart', JSON.stringify(cart));
+                updateCartUI();
+                renderProducts();
                 
-                if (device === 'desktop') {
-                    document.getElementById('clientName').value = '';
-                    document.getElementById('clientPhone').value = '';
-                    document.getElementById('clientEmail').value = '';
-                    document.getElementById('clientNotes').value = '';
-                } else {
+                if (isMobile) {
                     document.getElementById('mobile-clientName').value = '';
                     document.getElementById('mobile-clientPhone').value = '';
+                    document.getElementById('mobile-clientLine').value = '';
                     document.getElementById('mobile-clientEmail').value = '';
-                    document.getElementById('mobile-clientNotes').value = '';
-                    updateMobileCart();
-                    closeMobileCart();
+                    document.getElementById('mobile-studentFirstName').value = '';
+                    document.getElementById('mobile-studentLastName').value = '';
+                    document.getElementById('mobile-birthdate').value = '';
+                    document.getElementById('mobile-schoolName').value = '';
+                    document.getElementById('mobile-classGrade').value = '';
+                    document.getElementById('mobile-program').value = '';
+                } else {
+                    document.getElementById('clientName').value = '';
+                    document.getElementById('clientPhone').value = '';
+                    document.getElementById('clientLine').value = '';
+                    document.getElementById('clientEmail').value = '';
+                    document.getElementById('studentFirstName').value = '';
+                    document.getElementById('studentLastName').value = '';
+                    document.getElementById('birthdate').value = '';
+                    document.getElementById('schoolName').value = '';
+                    document.getElementById('classGrade').value = '';
+                    document.getElementById('program').value = '';
                 }
                 
-                setTimeout(() => {
-                    statusDiv.innerHTML = '';
-                }, 3000);
-            })
-            .catch(error => {
+                closeMobileCart();
+                
+            } catch (error) {
                 console.error('CRM Error:', error);
-                statusDiv.innerHTML = '❌ เกิดข้อผิดพลาดในการส่งข้อมูล';
-                statusDiv.className = 'status-message error';
-                
-                setTimeout(() => {
-                    statusDiv.innerHTML = '';
-                }, 4000);
+                statusDiv.className = 'status-message status-error';
+                statusDiv.textContent = (translations[currentLang].error || 'Error') + ': ' + error.message;
+            } finally {
+                document.getElementById('bottomSendBtn').disabled = false;
+                setTimeout(() => { 
+                    if (statusDiv.classList.contains('status-success')) {
+                        statusDiv.style.display = 'none';
+                    }
+                }, 5000);
+            }
+        };
+
+        document.addEventListener('DOMContentLoaded', function() {
+            initNavigation();
+            applyLanguage();
+            renderProducts();
+            updateCartUI();
+            
+            // Add styles for suggestions dropdown
+            const style = document.createElement('style');
+            style.textContent = `
+                .suggestions-dropdown {
+                    position: absolute;
+                    top: 100%;
+                    left: 0;
+                    right: 0;
+                    background: white;
+                    border: 2px solid var(--accent-primary);
+                    border-top: none;
+                    border-radius: 0 0 16px 16px;
+                    max-height: 200px;
+                    overflow-y: auto;
+                    z-index: 1000;
+                    display: none;
+                    box-shadow: 0 4px 10px var(--shadow-color);
+                }
+                .suggestion-item {
+                    padding: 0.8rem 1rem;
+                    cursor: pointer;
+                    transition: background 0.2s;
+                    border-bottom: 1px solid var(--border-color);
+                }
+                .suggestion-item:last-child {
+                    border-bottom: none;
+                }
+                .suggestion-item:hover {
+                    background: var(--accent-light);
+                    color: var(--accent-primary);
+                }
+                .form-field {
+                    position: relative;
+                }
+                .mobile-field {
+                    position: relative;
+                }
+            `;
+            document.head.appendChild(style);
+            
+            ['clientName','clientPhone','clientLine','clientEmail','studentFirstName','studentLastName','birthdate','schoolName','classGrade','program'].forEach(id => {
+                const f = document.getElementById(id); 
+                if(f) { 
+                    checkField(f, id); 
+                    f.addEventListener('input', function() { checkField(this, id); });
+                }
             });
-        }
-
-        function saveOrderToHistory(orderData) {
-            const history = JSON.parse(localStorage.getItem('orderHistory')) || [];
-            history.push({
-                ...orderData,
-                orderId: 'ORD-' + Date.now(),
-                savedAt: new Date().toLocaleString('th-TH')
+            
+            ['clientName','clientPhone','clientLine','clientEmail','studentFirstName','studentLastName','birthdate','schoolName','classGrade','program'].forEach(id => {
+                const f = document.getElementById('mobile-'+id); 
+                if(f) { 
+                    checkMobileField(f, id); 
+                    f.addEventListener('input', function() { checkMobileField(this, id); });
+                }
             });
-            if (history.length > 50) history.shift();
-            localStorage.setItem('orderHistory', JSON.stringify(history));
-        }
-
-        // ============================================
-        // ОТРИСОВКА
-        // ============================================
-        function renderAll() {
-            renderGrid('grid-packages', products.filter(p => p.cat === 'pack'));
-            renderGrid('grid-acrylic', products.filter(p => p.cat === 'acrylic'));
-            renderGrid('grid-float', products.filter(p => p.cat === 'float'));
-            renderGrid('grid-canvas', products.filter(p => p.cat === 'canvas'));
-            renderGrid('grid-collage', products.filter(p => p.cat === 'collage'));
-            renderGrid('grid-photobooks', products.filter(p => p.cat === 'photobook'));
-            renderGrid('grid-calendar', products.filter(p => p.cat === 'calendar'));
-            renderGrid('grid-bottle', products.filter(p => p.cat === 'bottle'));
-            renderGrid('grid-shaking', products.filter(p => p.cat === 'shaking'));
-            renderGrid('grid-accessory', products.filter(p => p.cat === 'accessory'));
-            renderGrid('grid-prints', products.filter(p => p.cat === 'prints'));
             
-            updateUI();
-        }
-
-        function renderGrid(gridId, items) {
-            const grid = document.getElementById(gridId);
-            if (!grid) return;
-            
-            let html = '';
-            items.forEach(prod => {
-                if (!prod.price) return;
-                const inCart = cart.find(item => item.id === prod.id);
-                const oldPriceHtml = prod.oldPrice ? `<span class="old-price">${prod.oldPrice} THB</span>` : '';
-                
-                html += `<div class="product-card">
-                    <div class="photo-placeholder"><span class="placeholder-text">PHOTO</span></div>
-                    <div class="product-code">${prod.name} ${prod.code || ''}</div>
-                    <div class="product-desc">${prod.desc.replace(/\n/g, '<br>')}</div>
-                    <div class="price-area">
-                        <span class="price">${prod.price} THB ${oldPriceHtml}</span>
-                        ${inCart ? 
-                            `<span class="in-cart-badge">✔ ในตะกร้า ${inCart.quantity}</span>` : 
-                            `<button class="add-to-cart-btn" onclick="addToCart('${prod.id}')">➕ เพิ่ม</button>`
-                        }
-                    </div>
-                </div>`;
+            document.getElementById('productModal').addEventListener('click', function(e) {
+                if (e.target === this) closeModal();
             });
-            grid.innerHTML = html;
-        }
-
-        function updateUI() {
-            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
-            const totalPrice = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-            
-            document.getElementById('total-items').innerText = totalItems;
-            document.getElementById('total-amount').innerText = totalPrice + ' THB';
-            document.getElementById('cart-count').innerText = totalItems;
-            
-            let itemsHtml = '';
-            if (cart.length === 0) {
-                itemsHtml = '<div class="empty-cart">ตะกร้าว่างเปล่า</div>';
-            } else {
-                cart.forEach(item => {
-                    itemsHtml += `
-                        <div class="cart-item">
-                            <div class="cart-item-info">
-                                <div class="cart-item-name">${item.name}</div>
-                                <div class="cart-item-price">${item.price} THB</div>
-                            </div>
-                            <div class="cart-item-controls">
-                                <button onclick="updateQuantity('${item.id}', -1)">−</button>
-                                <span>${item.quantity}</span>
-                                <button onclick="updateQuantity('${item.id}', 1)">+</button>
-                            </div>
-                        </div>
-                    `;
-                });
-            }
-            document.getElementById('cart-items-list').innerHTML = itemsHtml;
-            document.getElementById('cart-total-price').innerText = totalPrice + ' THB';
-            
-            updateMobileCart();
-        }
-
-        // ============================================
-        // ОБРАБОТЧИКИ ДЛЯ ПК
-        // ============================================
-        document.getElementById('clearCartBtn')?.addEventListener('click', function() {
-            if (confirm('ล้างสินค้าทั้งหมดในตะกร้า?')) {
-                cart = [];
-                localStorage.setItem('photoCart', JSON.stringify(cart));
-                renderAll();
-            }
         });
-
-        document.getElementById('checkoutBtn')?.addEventListener('click', function() {
-            const name = document.getElementById('clientName').value.trim();
-            const phone = document.getElementById('clientPhone').value.trim();
-            
-            if (!name || !phone) {
-                document.getElementById('crmStatus').innerHTML = '⚠️ กรุณากรอกชื่อและเบอร์โทร';
-                document.getElementById('crmStatus').className = 'status-message error';
-                return;
-            }
-            
-            if (cart.length === 0) {
-                document.getElementById('crmStatus').innerHTML = '⚠️ ไม่มีสินค้าในตะกร้า';
-                document.getElementById('crmStatus').className = 'status-message error';
-                return;
-            }
-            
-            sendToCRM('desktop');
-        });
-
-        document.getElementById('sendToCRM')?.addEventListener('click', function() {
-            sendToCRM('desktop');
-        });
-
-        // ЗАПУСК
-        renderAll();
     </script>
 </body>
 </html>
